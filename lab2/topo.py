@@ -143,5 +143,14 @@ def test_basic_structure(fat_tree, k):
 
 	print("basic structure test passed!")
 
+def test_core_connections(fat_tree, k):
+	for _, core in enumerate(fat_tree.core_switches):
+		connected_agg_switches = [n for edge in core.edges for n in [edge.lnode, edge.rnode] if n != core]
+		assert len(connected_agg_switches) == k, f"core switch {core.id} has {len(connected_agg_switches)} connections, expected {k}"
+
+	print("core switch connection test passed!")
+
 k = 4
-test_basic_structure(Fattree(k), k)
+fat_tree = Fattree(k)
+test_basic_structure(fat_tree, k)
+test_core_connections(fat_tree, k)
