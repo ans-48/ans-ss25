@@ -178,9 +178,19 @@ def test_edge_switch_connections(fat_tree, k):
 
 	print("edge switch connection test passed!")
 
+def test_host_connection(fat_tree):
+	for host in fat_tree.servers:
+		assert len(host.edges) == 1, f"host {host.id} has {len(host.edges)} connections, expected 1"
+
+		connected_switch = host.edges[0].lnode if host.edges[0].rnode == host else host.edges[0].rnode
+		assert connected_switch.type == "edge", f"host {host.id} is not connected to an edge switch, connected to {connected_switch.type}"
+
+	print("host connection test passed!")
+
 k = 4
 fat_tree = Fattree(k)
 test_basic_structure(fat_tree, k)
 test_core_connections(fat_tree, k)
 test_aggregation_connections(fat_tree, k)
 test_edge_switch_connections(fat_tree, k)
+test_host_connection(fat_tree)
