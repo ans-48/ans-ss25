@@ -216,6 +216,21 @@ def test_pod_structure(fat_tree, k):
 
 	print("pod structure test passed!")
 
+def test_edge_symmetry_and_host_connections(fat_tree):
+	# check symmetric edges
+	for node in fat_tree.servers + fat_tree.switches:
+		for edge in node.edges:
+			other = edge.lnode if edge.rnode == node else edge.rnode
+			assert edge in other.edges, f"edge inconsistency: {node.id} has edge to {other.id}, but not vice versa"
+
+	# check host connection rules
+	for host in fat_tree.servers:
+		assert len(host.edges) == 1, f"host {host.id} has {len(host.edges)} connections, expected 1"
+		switch = host.edges[0].lnode if host.edges[0].rnode == host else host.edges[0].rnode
+		assert switch.type == "edge", f"host {host.id} is connected to {switch.type} {switch.id}, should be edge switch"
+
+	print("edge symmetry and host connection tests passed!")
+
 k = 4
 fat_tree = Fattree(k)
 test_basic_structure(fat_tree, k)
@@ -224,3 +239,4 @@ test_aggregation_connections(fat_tree, k)
 test_edge_switch_connections(fat_tree, k)
 test_host_connection(fat_tree)
 test_pod_structure(fat_tree, k)
+test_edge_symmetry_and_host_connections(fat_tree)
