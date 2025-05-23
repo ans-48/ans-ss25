@@ -187,6 +187,35 @@ def test_host_connection(fat_tree):
 
 	print("host connection test passed!")
 
+def test_pod_structure(fat_tree, k):
+	for pod in range(k):
+		agg_switches = fat_tree.aggregation_switches[pod]
+		edge_switches = fat_tree.edge_switches[pod]
+
+		# check edge switch connections
+		for edge in edge_switches:
+			for edge_conn in edge.edges:
+				other = edge_conn.lnode if edge_conn.rnode == edge else edge_conn.rnode
+				if other.type == "host":
+					assert other.id.startswith(f"h{pod}_"), f"host {other.id} connected to edge switch {edge.id} in wrong pod"
+				elif other.type == "aggregation":
+					assert other in agg_switches, f"edge switch {edge.id} connected to aggregation switch {other.id} from another pod"
+				else:
+					assert False, f"edge switch {edge.id} connected to invalid type {other.type}"
+
+		# check aggregation switch connections
+		for agg in agg_switches:
+			for agg_conn in agg.edges:
+				other = agg_conn.lnode if agg_conn.rnode == agg else agg_conn.rnode
+				if other.type == "edge":
+					assert other in edge_switches, f"aggregation switch {agg.id} connected to edge switch {other.id} from another pod"
+				elif other.type == "core":
+					pass
+				else:
+					assert False, f"aggregation switch {agg.id} connected to invalid type {other.type}"
+
+	print("pod structure test passed!")
+
 k = 4
 fat_tree = Fattree(k)
 test_basic_structure(fat_tree, k)
@@ -194,3 +223,4 @@ test_core_connections(fat_tree, k)
 test_aggregation_connections(fat_tree, k)
 test_edge_switch_connections(fat_tree, k)
 test_host_connection(fat_tree)
+test_pod_structure(fat_tree, k)
