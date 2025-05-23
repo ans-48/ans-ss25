@@ -150,7 +150,22 @@ def test_core_connections(fat_tree, k):
 
 	print("core switch connection test passed!")
 
+def test_aggregation_connections(fat_tree, k):
+	for pod in range(k):
+		for agg in fat_tree.aggregation_switches[pod]:
+			connected_nodes = [n for edge in agg.edges for n in [edge.lnode, edge.rnode] if n != agg]
+			assert len(connected_nodes) == k, f"aggregation switch {agg.id} has {len(connected_nodes)} connections, expected {k}"
+
+			edge_neighbors = [n for n in connected_nodes if n.type == "edge"]
+			core_neighbors = [n for n in connected_nodes if n.type == "core"]
+
+			assert len(edge_neighbors) == k // 2, f"{agg.id} has {len(edge_neighbors)} edge neighbors, expected {k//2}"
+			assert len(core_neighbors) == k // 2, f"{agg.id} has {len(core_neighbors)} core neighbors, expected {k//2}"
+
+	print("aggregation switch connection test passed!")
+
 k = 4
 fat_tree = Fattree(k)
 test_basic_structure(fat_tree, k)
 test_core_connections(fat_tree, k)
+test_aggregation_connections(fat_tree, k)
