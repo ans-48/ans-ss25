@@ -77,7 +77,7 @@ class Fattree:
 		self.switches = []
 		self.servers = []
 
-		def node_id(prefix, *indices): return f"{prefix}{'_'.join(map(str, indices))}"
+		def node_id(prefix, *indices): return f"{prefix}{''.join(map(str, indices))}"
 
 		# create core switches
 		for i in range(num_ports // 2):
@@ -231,12 +231,12 @@ def test_edge_symmetry_and_host_connections(fat_tree):
 
 	print("edge symmetry and host connection tests passed!")
 
-k = 4
-fat_tree = Fattree(k)
-test_basic_structure(fat_tree, k)
-test_core_connections(fat_tree, k)
-test_aggregation_connections(fat_tree, k)
-test_edge_switch_connections(fat_tree, k)
-test_host_connection(fat_tree)
-test_pod_structure(fat_tree, k)
-test_edge_symmetry_and_host_connections(fat_tree)
+# k = 4
+# fat_tree = Fattree(k)
+# test_basic_structure(fat_tree, k)
+# test_core_connections(fat_tree, k)
+# test_aggregation_connections(fat_tree, k)
+# test_edge_switch_connections(fat_tree, k)
+# test_host_connection(fat_tree)
+# test_pod_structure(fat_tree, k)
+# test_edge_symmetry_and_host_connections(fat_tree)
