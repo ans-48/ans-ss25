@@ -51,19 +51,22 @@ class FattreeNet(Topo):
         self.node_map = {}
 
         for node in ft_topo.servers:
-            mn_name = node.id
-            self.node_map[node.id] = mn_name
+            parts = node.id[1:].split('_')
+            if len(parts) != 3:
+                raise ValueError(f"invalid host ID format: {node.id}")
 
-            id_str = node.id[1:]
-            pod = int(id_str[0])
-            edge = int(id_str[1])
-            host = int(id_str[2])
+            pod = int(parts[0]); edge = int(parts[1]); host = int(parts[2])
+            mn_name = f"h{pod}{edge}{host}"
+            self.node_map[node.id] = mn_name
 
             ip_addr = f"10.{pod}.{edge}.{host}"
             self.addHost(mn_name, ip=ip_addr)
 
         for node in ft_topo.switches:
-            mn_name = node.id
+            parts = node.id[2:].split('_')
+            if len(parts) != 2:
+                raise ValueError(f"invalid switch ID format: {node.id}")
+            mn_name = f"{node.id[0:2]}{parts[0]}{parts[1]}"
             self.node_map[node.id] = mn_name
             self.addSwitch(mn_name)
 
