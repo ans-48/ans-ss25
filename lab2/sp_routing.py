@@ -21,6 +21,8 @@
 
 #!/usr/bin/env python3
 
+import heapq
+
 from ryu.base import app_manager
 from ryu.controller import mac_to_port
 from ryu.controller import ofp_event
@@ -47,6 +49,10 @@ class SPRouter(app_manager.RyuApp):
         
         # Initialize the topology with #ports=4
         self.topo_net = topo.Fattree(4)
+        # dpid -> list of (neighbor_dpid, out_port, weight)
+        self.adjacency = {}
+        # (src_dpid, dst_dpid) -> out_port
+        self.port_map = {}
 
 
     # Topology discovery
@@ -56,6 +62,23 @@ class SPRouter(app_manager.RyuApp):
         # Switches and links in the network
         switches = get_switch(self, None)
         links = get_link(self, None)
+
+        self.adjacency = {dpid.dp.id: [] for dpid in switches}
+        self.port_map = {}
+
+        for link in links:
+            src = link.src; dst = link.dst
+            src_dpid = src.dpid; dst_dpid = dst.dpid
+            src_port = src.port_no; dst_port = dst.port_no
+
+            self.port_map[(src_dpid, dst_dpid)] = src_port
+            self.port_map[(dst_dpid, src_dpid)] = dst_port
+
+            self.adjacency[src_dpid].append((dst_dpid, src_port, 1))
+            self.adjacency[dst_dpid].append((src_dpid, dst_port, 1))
+
+        self.logger.info("topology discovered: %d switches, %d links",
+                         len(switches), len(links))
 
 
     @set_ev_cls(ofp_event.EventOFPSwitchFeatures, CONFIG_DISPATCHER)
@@ -92,3 +115,30 @@ class SPRouter(app_manager.RyuApp):
         parser = datapath.ofproto_parser
 
         # TODO: handle new packets at the controller
+
+    def dijkstra(self, src_dpid):
+        dist = {dpid: float('inf') for dpid in self.adjacency}
+        prev = {dpid: None for dpid in self.adjacency}
+
+        dist[src_dpid] = 0
+        heap = [(0, src_dpid)]
+
+        while heap:
+            current_dist, u = heapq.heappop(heap)
+            if current_dist > dist[u]: continue
+
+            for neighbor, _, weight in self.adjacency[u]:
+                alt = dist[u] + weight
+                if alt < dist[neighbor]:
+                    dist[neighbor] = alt
+                    prev[neighbor] = u
+                    heapq.heappush(heap, (alt, neighbor))
+
+        return prev
+
+    def get_path(self, src, dst, prev):
+        path = []
+        while dst is not None:
+            path.insert(0, dst)
+            dst = prev[dst]
+        return path if path[0] == src else []
