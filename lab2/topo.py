@@ -77,7 +77,7 @@ class Fattree:
 		self.switches = []
 		self.servers = []
 
-		def node_id(prefix, *indices): return f"{prefix}{''.join(map(str, indices))}"
+		def node_id(prefix, *indices): return f"{prefix}{'_'.join(map(str, indices))}"
 
 		# create core switches
 		for i in range(num_ports // 2):
