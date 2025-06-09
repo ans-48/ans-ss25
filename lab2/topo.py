@@ -69,41 +69,41 @@ class Fattree:
 	def generate(self, num_ports):
 
 		# TODO: code for generating the fat-tree topology
-		if num_ports % 2 != 0: raise ValueError("number of ports (k) must be even for fat-tree topology.")
+		if num_ports % 2 != 0:
+			raise ValueError("number of ports (k) must be even for fat-tree topology.")
 
-		self.core_switches = []
+		self.core_switches = [[None for _ in range(num_ports // 2)] for _ in range(num_ports // 2)]
 		self.aggregation_switches = [[] for _ in range(num_ports)]
 		self.edge_switches = [[] for _ in range(num_ports)]
 		self.switches = []
 		self.servers = []
 
-		def node_id(prefix, *indices): return f"{prefix}{''.join(map(str, indices))}"
+		def node_id(prefix, *indices): return f"{prefix}{'_'.join(map(str, indices))}"
 
 		# create core switches
 		for i in range(num_ports // 2):
 			for j in range(num_ports // 2):
 				switch = Node(id=node_id("cs", i, j), type="core")
-				self.core_switches.append(switch)
+				self.core_switches[i][j] = switch
 				self.switches.append(switch)
 
-		# create aggregation and edge switches per pod
+		# create aggregation and edge switches
 		for pod in range(num_ports):
-			agg_switches = []; edge_switches = []
+			agg_switches = []
+			edge_switches = []
 
 			for i in range(num_ports // 2):
-				switch = Node(id=node_id("as", pod, i), type="aggregation")
-				agg_switches.append(switch)
-				self.switches.append(switch)
-
-			for i in range(num_ports // 2):
-				switch = Node(id=node_id("es", pod, i), type="edge")
-				edge_switches.append(switch)
-				self.switches.append(switch)
+				agg = Node(id=node_id("as", pod, i), type="aggregation")
+				edge = Node(id=node_id("es", pod, i), type="edge")
+				agg_switches.append(agg)
+				edge_switches.append(edge)
+				self.switches.append(agg)
+				self.switches.append(edge)
 
 			self.aggregation_switches[pod] = agg_switches
 			self.edge_switches[pod] = edge_switches
 
-		# create servers to edge switches
+		# connect edge switches to hosts
 		for pod in range(num_ports):
 			for edge_idx, edge_switch in enumerate(self.edge_switches[pod]):
 				for i in range(num_ports // 2):
@@ -117,13 +117,13 @@ class Fattree:
 				for agg_switch in self.aggregation_switches[pod]:
 					edge_switch.add_edge(agg_switch)
 
-		# connect aggregation switches to core switches
+		# connect aggregation switches to core switches correctly
 		for pod in range(num_ports):
-			for agg_index, agg_switch in enumerate(self.aggregation_switches[pod]):
-				for group in range(num_ports // 2):
-					core_index = group * (num_ports // 2) + agg_index
-					agg_switch.add_edge(self.core_switches[core_index])
-
+			for i in range(num_ports // 2):  # aggregation index
+				agg_switch = self.aggregation_switches[pod][i]
+				for j in range(num_ports // 2):  # core column index
+					core_switch = self.core_switches[i][j]  # row i, column j
+					agg_switch.add_edge(core_switch)
 
 def test_basic_structure(fat_tree, k):
 	expected_core = (k // 2) ** 2
