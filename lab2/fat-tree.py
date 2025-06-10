@@ -21,8 +21,9 @@ class FattreeNet(Topo):
         # hosts
         for srv in ft.servers:
             name = srv.id.replace('_','')
-            ip   = f"10.0.0.{hcount}/8"
+            ip   = f"10.0.0.{hcount+2}/8"
             self.node_map[srv.id] = self.addHost(name, ip=ip)
+            print(f"{name} -> {ip}")
             hcount += 1
 
         # switches
