@@ -57,3 +57,23 @@ class Fattree:
                 for ci in range(k//2):
                     idx = ai*(k//2) + ci
                     a.add_edge(core[idx])
+
+def test_node_counts(k):
+    ft = Fattree(k)
+    expected_hosts = (k ** 3) // 4
+    expected_core = (k // 2) ** 2
+    expected_edge = k * (k // 2)
+    expected_agg = k * (k // 2)
+
+    print(f"Hosts: {len(ft.servers)} / expected {expected_hosts}")
+    print(f"Switches: {len(ft.switches)} / expected {expected_core + expected_edge + expected_agg}")
+
+def test_node_degrees(k):
+    ft = Fattree(k)
+    for host in ft.servers:
+        print(f"{host.id} degree: {len(host.edges)} (should be 1)")
+    for switch in ft.switches:
+        print(f"{switch.id} degree: {len(switch.edges)} (should be {k})")
+
+test_node_counts(4)
+test_node_degrees(4)
