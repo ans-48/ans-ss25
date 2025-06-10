@@ -15,16 +15,19 @@ class FattreeNet(Topo):
     def __init__(self, ft):
         super(FattreeNet, self).__init__()
         self.node_map = {}
-        hcount = 1
         dpidc  = 1
 
         # hosts
         for srv in ft.servers:
+            parts = srv.id[1:].split('_')
+            if len(parts) != 4:
+                raise ValueError(f"invalid host ID format: {srv.id}")
+
+            pod = int(parts[1]); edge = int(parts[2]); host = int(parts[3])
             name = srv.id.replace('_','')
-            ip   = f"10.0.0.{hcount+2}/8"
+            ip   = f"10.{pod}.{edge}.{host+2}"
             self.node_map[srv.id] = self.addHost(name, ip=ip)
             print(f"{name} -> {ip}")
-            hcount += 1
 
         # switches
         for sw in ft.switches:
