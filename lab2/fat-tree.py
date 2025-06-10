@@ -1,4 +1,24 @@
-# fat-tree.py
+"""
+ Copyright (c) 2025 Computer Networks Group @ UPB
+
+ Permission is hereby granted, free of charge, to any person obtaining a copy of
+ this software and associated documentation files (the "Software"), to deal in
+ the Software without restriction, including without limitation the rights to
+ use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+ the Software, and to permit persons to whom the Software is furnished to do so,
+ subject to the following conditions:
+
+ The above copyright notice and this permission notice shall be included in all
+ copies or substantial portions of the Software.
+
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ """
+
 #!/usr/bin/env python3
 
 import mininet.clean
@@ -15,15 +35,19 @@ class FattreeNet(Topo):
     def __init__(self, ft):
         super(FattreeNet, self).__init__()
         self.node_map = {}
-        hcount = 1
         dpidc  = 1
 
         # hosts
         for srv in ft.servers:
+            parts = srv.id[1:].split('_')
+            if len(parts) != 4:
+                raise ValueError(f"invalid host ID format: {srv.id}")
+
+            pod = int(parts[1]); edge = int(parts[2]); host = int(parts[3])
             name = srv.id.replace('_','')
-            ip   = f"10.0.0.{hcount}/8"
+            ip   = f"10.{pod}.{edge}.{host+2}"
             self.node_map[srv.id] = self.addHost(name, ip=ip)
-            hcount += 1
+            print(f"{name} -> {ip}")
 
         # switches
         for sw in ft.switches:

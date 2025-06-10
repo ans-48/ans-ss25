@@ -1,7 +1,25 @@
-# topo.py
-#
-# Copyright (c) 2025 Computer Networks Group @ UPB
-#
+"""
+ Copyright (c) 2025 Computer Networks Group @ UPB
+
+ Permission is hereby granted, free of charge, to any person obtaining a copy of
+ this software and associated documentation files (the "Software"), to deal in
+ the Software without restriction, including without limitation the rights to
+ use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+ the Software, and to permit persons to whom the Software is furnished to do so,
+ subject to the following conditions:
+
+ The above copyright notice and this permission notice shall be included in all
+ copies or substantial portions of the Software.
+
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ """
+
+# Class for an edge in the graph
 class Edge:
     def __init__(self):
         self.lnode = None
@@ -57,3 +75,23 @@ class Fattree:
                 for ci in range(k//2):
                     idx = ai*(k//2) + ci
                     a.add_edge(core[idx])
+
+def test_node_counts(k):
+    ft = Fattree(k)
+    expected_hosts = (k ** 3) // 4
+    expected_core = (k // 2) ** 2
+    expected_edge = k * (k // 2)
+    expected_agg = k * (k // 2)
+
+    print(f"Hosts: {len(ft.servers)} / expected {expected_hosts}")
+    print(f"Switches: {len(ft.switches)} / expected {expected_core + expected_edge + expected_agg}")
+
+def test_node_degrees(k):
+    ft = Fattree(k)
+    for host in ft.servers:
+        print(f"{host.id} degree: {len(host.edges)} (should be 1)")
+    for switch in ft.switches:
+        print(f"{switch.id} degree: {len(switch.edges)} (should be {k})")
+
+test_node_counts(4)
+test_node_degrees(4)
