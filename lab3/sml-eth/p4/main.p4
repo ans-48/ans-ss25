@@ -54,17 +54,17 @@ parser TheParser(packet_in packet,
                  inout standard_metadata_t standard_metadata) {
   /* TODO: Implement me */
   state start {
-        packet.extract(hdr.eth);
-        transition select(hdr.eth.etherType) {
-            0x1234: parse_sml;  // our custom ethertype
-            default: accept;
-        }
+    packet.extract(hdr.eth);
+    transition select(hdr.eth.etherType) {
+      0x1234: parse_sml;  // our custom ethertype
+      default: accept;
     }
+  }
 
-    state parse_sml {
-        packet.extract(hdr.sml);
-        transition accept;
-    }
+  state parse_sml {
+    packet.extract(hdr.sml);
+    transition accept;
+  }
 }
 
 control TheIngress(inout headers hdr,

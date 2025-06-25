@@ -26,7 +26,7 @@ from scapy.all import Packet, Ether, sendp, sniff
 from scapy.fields import ByteField, ShortField, FieldListField, IntField
 
 NUM_ITER   = 1     # TODO: Make sure your program can handle larger values
-CHUNK_SIZE = None  # TODO: Define me
+CHUNK_SIZE = 4  # TODO: Define me
 
 class SwitchML(Packet):
     name = "SwitchMLPacket"
