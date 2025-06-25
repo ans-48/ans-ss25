@@ -22,7 +22,8 @@
 from lib.gen import GenInts, GenMultipleOfInRange
 from lib.test import CreateTestData, RunIntTest
 from lib.worker import *
-from scapy.all import Packet
+from scapy.all import Packet, Ether, sendp, sniff
+from scapy.fields import ByteField, ShortField, FieldListField, IntField
 
 NUM_ITER   = 1     # TODO: Make sure your program can handle larger values
 CHUNK_SIZE = None  # TODO: Define me
@@ -31,6 +32,10 @@ class SwitchML(Packet):
     name = "SwitchMLPacket"
     fields_desc = [
         # TODO: Implement me
+        ByteField("chunk_id", 0),     # same as bit<8>
+        ByteField("rank", 0),         # same as bit<8>
+        ShortField("count", 0),       # same as bit<16>
+        FieldListField("data", [], IntField("", 0), count_from=lambda pkt: pkt.count)
     ]
 
 def AllReduce(iface, rank, data, result):
@@ -45,6 +50,23 @@ def AllReduce(iface, rank, data, result):
     This function is blocking, i.e. only returns with a result or error
     """
     # TODO: Implement me
+    chunk_id = 0
+    chunk_data = data[:4]  # send just 4 elements
+    pkt = Ether(dst="ff:ff:ff:ff:ff:ff", type=0x1234) / \
+          SwitchML(chunk_id=chunk_id, rank=rank, count=len(chunk_data), data=chunk_data)
+
+    print(f"[Rank {rank}] Sending packet: {pkt.summary()}")
+    pkt.show()
+    sendp(pkt, iface=iface, verbose=False)
+
+    def is_reply(x):
+        return SwitchML in x and x[SwitchML].chunk_id == chunk_id
+
+    reply = sniff(iface=iface, lfilter=is_reply, timeout=2, count=1)
+    if reply:
+        print(f"[Rank {rank}] Received reply: {reply[0].summary()}")
+    else:
+        print(f"[Rank {rank}] No reply received.")
     pass
 
 def main():

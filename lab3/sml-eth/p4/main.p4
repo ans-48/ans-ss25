@@ -29,10 +29,16 @@ typedef bit<48> mac_addr_t;  /*< MAC address */
 
 header ethernet_t {
   /* TODO: Define me */
+  mac_addr_t dstAddr;
+  mac_addr_t srcAddr;
+  bit<16>    etherType;
 }
 
 header sml_t {
   /* TODO: Define me */
+  bit<8>   chunk_id;        // Which chunk of the vector this is
+  bit<8>   rank;            // Worker ID sending this
+  bit<16>  count;           // Number of values in the payload
 }
 
 struct headers {
@@ -47,7 +53,18 @@ parser TheParser(packet_in packet,
                  inout metadata meta,
                  inout standard_metadata_t standard_metadata) {
   /* TODO: Implement me */
-  state start {}
+  state start {
+        packet.extract(hdr.eth);
+        transition select(hdr.eth.etherType) {
+            0x1234: parse_sml;  // our custom ethertype
+            default: accept;
+        }
+    }
+
+    state parse_sml {
+        packet.extract(hdr.sml);
+        transition accept;
+    }
 }
 
 control TheIngress(inout headers hdr,
@@ -55,6 +72,12 @@ control TheIngress(inout headers hdr,
                    inout standard_metadata_t standard_metadata) {
   apply {
     /* TODO: Implement me */
+    if (hdr.sml.isValid()) {
+      // Log to the switch log using packet modification
+      hdr.sml.chunk_id = hdr.sml.chunk_id;  // dummy no-op
+      // Drop the packet
+      mark_to_drop(standard_metadata);
+    }
   }
 }
 
