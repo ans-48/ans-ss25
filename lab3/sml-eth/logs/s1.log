@@ -1,0 +1,448 @@
+Calling target program-options parser
+[18:45:38.041] [bmv2] [D] [thread 2184] Set default default entry for table 'tbl_main66': main66 - 
+[18:45:38.041] [bmv2] [D] [thread 2184] Set default default entry for table 'tbl_main91': main91 - 
+[18:45:38.041] [bmv2] [D] [thread 2184] Set default default entry for table 'tbl_main112': main112 - 
+Adding interface s1-eth0 as port 0
+[18:45:38.042] [bmv2] [D] [thread 2184] Adding interface s1-eth0 as port 0
+Adding interface s1-eth1 as port 1
+[18:45:38.185] [bmv2] [D] [thread 2184] Adding interface s1-eth1 as port 1
+Server listening on 0.0.0.0:50051
+[18:45:38.398] [bmv2] [I] [thread 2184] Starting Thrift server on port 9090
+[18:45:38.399] [bmv2] [I] [thread 2184] Thrift server was started
+[18:45:38.400] [bmv2] [D] [thread 2196] [0.0] [cxt 0] Processing packet received on port 1
+[18:45:38.401] [bmv2] [D] [thread 2196] [0.0] [cxt 0] Parser 'parser': start
+[18:45:38.401] [bmv2] [D] [thread 2196] [0.0] [cxt 0] Parser 'parser' entering state 'start'
+[18:45:38.402] [bmv2] [D] [thread 2196] [0.0] [cxt 0] Extracting header 'eth'
+[18:45:38.402] [bmv2] [D] [thread 2196] [0.0] [cxt 0] Parser state 'start': key is 86dd
+[18:45:38.403] [bmv2] [T] [thread 2196] [0.0] [cxt 0] Bytes parsed: 14
+[18:45:38.403] [bmv2] [D] [thread 2196] [0.0] [cxt 0] Parser 'parser': end
+[18:45:38.403] [bmv2] [D] [thread 2196] [0.0] [cxt 0] Pipeline 'ingress': start
+[18:45:38.404] [bmv2] [T] [thread 2196] [0.0] [cxt 0] /vagrant/lab3/sml-eth/p4/main.p4(63) Condition "hdr.sml.isValid()" (node_2) is false
+[18:45:38.404] [bmv2] [D] [thread 2196] [0.0] [cxt 0] Pipeline 'ingress': end
+[18:45:38.404] [bmv2] [D] [thread 2196] [0.0] [cxt 0] Egress port is 0
+[18:45:38.404] [bmv2] [D] [thread 2197] [0.0] [cxt 0] Pipeline 'egress': start
+[18:45:38.405] [bmv2] [D] [thread 2197] [0.0] [cxt 0] Pipeline 'egress': end
+[18:45:38.405] [bmv2] [D] [thread 2197] [0.0] [cxt 0] Deparser 'deparser': start
+[18:45:38.405] [bmv2] [D] [thread 2197] [0.0] [cxt 0] Deparsing header 'eth'
+[18:45:38.405] [bmv2] [D] [thread 2197] [0.0] [cxt 0] Deparser 'deparser': end
+[18:45:38.405] [bmv2] [D] [thread 2201] [0.0] [cxt 0] Transmitting packet of size 86 out of port 0
+[18:45:38.562] [bmv2] [W] [thread 2225] [P4Runtime] p4::tmp::P4DeviceConfig is deprecated
+[18:45:38.566] [bmv2] [D] [thread 2225] Set default default entry for table 'tbl_main66': main66 - 
+[18:45:38.566] [bmv2] [D] [thread 2225] Set default default entry for table 'tbl_main91': main91 - 
+[18:45:38.566] [bmv2] [D] [thread 2225] Set default default entry for table 'tbl_main112': main112 - 
+[18:45:38.567] [bmv2] [D] [thread 2225] simple_switch target has been notified of a config swap
+[18:45:38.590] [bmv2] [D] [thread 2225] mgrp node created for mgid 1
+[18:45:38.590] [bmv2] [D] [thread 2225] node created for rid 1
+[18:45:38.590] [bmv2] [D] [thread 2225] node associated with mgid 1
+[18:45:38.590] [bmv2] [D] [thread 2225] node created for rid 0
+[18:45:38.591] [bmv2] [D] [thread 2225] node associated with mgid 1
+[18:45:38.676] [bmv2] [D] [thread 2196] [1.0] [cxt 0] Processing packet received on port 0
+[18:45:38.677] [bmv2] [D] [thread 2196] [1.0] [cxt 0] Parser 'parser': start
+[18:45:38.678] [bmv2] [D] [thread 2196] [1.0] [cxt 0] Parser 'parser' entering state 'start'
+[18:45:38.678] [bmv2] [D] [thread 2196] [1.0] [cxt 0] Extracting header 'eth'
+[18:45:38.679] [bmv2] [D] [thread 2196] [1.0] [cxt 0] Parser state 'start': key is 86dd
+[18:45:38.680] [bmv2] [T] [thread 2196] [1.0] [cxt 0] Bytes parsed: 14
+[18:45:38.680] [bmv2] [D] [thread 2196] [1.0] [cxt 0] Parser 'parser': end
+[18:45:38.681] [bmv2] [D] [thread 2196] [1.0] [cxt 0] Pipeline 'ingress': start
+[18:45:38.682] [bmv2] [T] [thread 2196] [1.0] [cxt 0] /vagrant/lab3/sml-eth/p4/main.p4(63) Condition "hdr.sml.isValid()" (node_2) is false
+[18:45:38.682] [bmv2] [D] [thread 2196] [1.0] [cxt 0] Pipeline 'ingress': end
+[18:45:38.682] [bmv2] [D] [thread 2196] [1.0] [cxt 0] Egress port is 0
+[18:45:38.683] [bmv2] [D] [thread 2197] [1.0] [cxt 0] Pipeline 'egress': start
+[18:45:38.684] [bmv2] [D] [thread 2197] [1.0] [cxt 0] Pipeline 'egress': end
+[18:45:38.684] [bmv2] [D] [thread 2197] [1.0] [cxt 0] Deparser 'deparser': start
+[18:45:38.684] [bmv2] [D] [thread 2197] [1.0] [cxt 0] Deparsing header 'eth'
+[18:45:38.684] [bmv2] [D] [thread 2197] [1.0] [cxt 0] Deparser 'deparser': end
+[18:45:38.685] [bmv2] [D] [thread 2201] [1.0] [cxt 0] Transmitting packet of size 90 out of port 0
+[18:45:38.867] [bmv2] [D] [thread 2196] [2.0] [cxt 0] Processing packet received on port 0
+[18:45:38.868] [bmv2] [D] [thread 2196] [2.0] [cxt 0] Parser 'parser': start
+[18:45:38.869] [bmv2] [D] [thread 2196] [2.0] [cxt 0] Parser 'parser' entering state 'start'
+[18:45:38.869] [bmv2] [D] [thread 2196] [2.0] [cxt 0] Extracting header 'eth'
+[18:45:38.870] [bmv2] [D] [thread 2196] [2.0] [cxt 0] Parser state 'start': key is 86dd
+[18:45:38.871] [bmv2] [T] [thread 2196] [2.0] [cxt 0] Bytes parsed: 14
+[18:45:38.871] [bmv2] [D] [thread 2196] [2.0] [cxt 0] Parser 'parser': end
+[18:45:38.872] [bmv2] [D] [thread 2196] [2.0] [cxt 0] Pipeline 'ingress': start
+[18:45:38.872] [bmv2] [T] [thread 2196] [2.0] [cxt 0] /vagrant/lab3/sml-eth/p4/main.p4(63) Condition "hdr.sml.isValid()" (node_2) is false
+[18:45:38.872] [bmv2] [D] [thread 2196] [2.0] [cxt 0] Pipeline 'ingress': end
+[18:45:38.873] [bmv2] [D] [thread 2196] [2.0] [cxt 0] Egress port is 0
+[18:45:38.873] [bmv2] [D] [thread 2197] [2.0] [cxt 0] Pipeline 'egress': start
+[18:45:38.873] [bmv2] [D] [thread 2197] [2.0] [cxt 0] Pipeline 'egress': end
+[18:45:38.874] [bmv2] [D] [thread 2197] [2.0] [cxt 0] Deparser 'deparser': start
+[18:45:38.874] [bmv2] [D] [thread 2197] [2.0] [cxt 0] Deparsing header 'eth'
+[18:45:38.875] [bmv2] [D] [thread 2197] [2.0] [cxt 0] Deparser 'deparser': end
+[18:45:38.875] [bmv2] [D] [thread 2201] [2.0] [cxt 0] Transmitting packet of size 86 out of port 0
+[18:45:39.412] [bmv2] [D] [thread 2196] [3.0] [cxt 0] Processing packet received on port 1
+[18:45:39.412] [bmv2] [D] [thread 2196] [3.0] [cxt 0] Parser 'parser': start
+[18:45:39.412] [bmv2] [D] [thread 2196] [3.0] [cxt 0] Parser 'parser' entering state 'start'
+[18:45:39.413] [bmv2] [D] [thread 2196] [3.0] [cxt 0] Extracting header 'eth'
+[18:45:39.413] [bmv2] [D] [thread 2196] [3.0] [cxt 0] Parser state 'start': key is 86dd
+[18:45:39.414] [bmv2] [T] [thread 2196] [3.0] [cxt 0] Bytes parsed: 14
+[18:45:39.414] [bmv2] [D] [thread 2196] [3.0] [cxt 0] Parser 'parser': end
+[18:45:39.414] [bmv2] [D] [thread 2196] [3.0] [cxt 0] Pipeline 'ingress': start
+[18:45:39.415] [bmv2] [T] [thread 2196] [3.0] [cxt 0] /vagrant/lab3/sml-eth/p4/main.p4(63) Condition "hdr.sml.isValid()" (node_2) is false
+[18:45:39.415] [bmv2] [D] [thread 2196] [3.0] [cxt 0] Pipeline 'ingress': end
+[18:45:39.415] [bmv2] [D] [thread 2196] [3.0] [cxt 0] Egress port is 0
+[18:45:39.416] [bmv2] [D] [thread 2196] [4.0] [cxt 0] Processing packet received on port 1
+[18:45:39.416] [bmv2] [D] [thread 2196] [4.0] [cxt 0] Parser 'parser': start
+[18:45:39.416] [bmv2] [D] [thread 2196] [4.0] [cxt 0] Parser 'parser' entering state 'start'
+[18:45:39.417] [bmv2] [D] [thread 2196] [4.0] [cxt 0] Extracting header 'eth'
+[18:45:39.417] [bmv2] [D] [thread 2196] [4.0] [cxt 0] Parser state 'start': key is 86dd
+[18:45:39.417] [bmv2] [T] [thread 2196] [4.0] [cxt 0] Bytes parsed: 14
+[18:45:39.417] [bmv2] [D] [thread 2196] [4.0] [cxt 0] Parser 'parser': end
+[18:45:39.417] [bmv2] [D] [thread 2196] [4.0] [cxt 0] Pipeline 'ingress': start
+[18:45:39.418] [bmv2] [T] [thread 2196] [4.0] [cxt 0] /vagrant/lab3/sml-eth/p4/main.p4(63) Condition "hdr.sml.isValid()" (node_2) is false
+[18:45:39.418] [bmv2] [D] [thread 2196] [4.0] [cxt 0] Pipeline 'ingress': end
+[18:45:39.418] [bmv2] [D] [thread 2196] [4.0] [cxt 0] Egress port is 0
+[18:45:39.416] [bmv2] [D] [thread 2197] [3.0] [cxt 0] Pipeline 'egress': start
+[18:45:39.419] [bmv2] [D] [thread 2197] [3.0] [cxt 0] Pipeline 'egress': end
+[18:45:39.419] [bmv2] [D] [thread 2197] [3.0] [cxt 0] Deparser 'deparser': start
+[18:45:39.419] [bmv2] [D] [thread 2197] [3.0] [cxt 0] Deparsing header 'eth'
+[18:45:39.419] [bmv2] [D] [thread 2197] [3.0] [cxt 0] Deparser 'deparser': end
+[18:45:39.420] [bmv2] [D] [thread 2197] [4.0] [cxt 0] Pipeline 'egress': start
+[18:45:39.420] [bmv2] [D] [thread 2197] [4.0] [cxt 0] Pipeline 'egress': end
+[18:45:39.420] [bmv2] [D] [thread 2197] [4.0] [cxt 0] Deparser 'deparser': start
+[18:45:39.420] [bmv2] [D] [thread 2197] [4.0] [cxt 0] Deparsing header 'eth'
+[18:45:39.420] [bmv2] [D] [thread 2197] [4.0] [cxt 0] Deparser 'deparser': end
+[18:45:39.420] [bmv2] [D] [thread 2201] [3.0] [cxt 0] Transmitting packet of size 90 out of port 0
+[18:45:39.421] [bmv2] [D] [thread 2201] [4.0] [cxt 0] Transmitting packet of size 70 out of port 0
+[18:45:39.500] [bmv2] [D] [thread 2196] [5.0] [cxt 0] Processing packet received on port 1
+[18:45:39.500] [bmv2] [D] [thread 2196] [5.0] [cxt 0] Parser 'parser': start
+[18:45:39.501] [bmv2] [D] [thread 2196] [5.0] [cxt 0] Parser 'parser' entering state 'start'
+[18:45:39.502] [bmv2] [D] [thread 2196] [5.0] [cxt 0] Extracting header 'eth'
+[18:45:39.503] [bmv2] [D] [thread 2196] [5.0] [cxt 0] Parser state 'start': key is 86dd
+[18:45:39.503] [bmv2] [T] [thread 2196] [5.0] [cxt 0] Bytes parsed: 14
+[18:45:39.504] [bmv2] [D] [thread 2196] [5.0] [cxt 0] Parser 'parser': end
+[18:45:39.504] [bmv2] [D] [thread 2196] [5.0] [cxt 0] Pipeline 'ingress': start
+[18:45:39.505] [bmv2] [T] [thread 2196] [5.0] [cxt 0] /vagrant/lab3/sml-eth/p4/main.p4(63) Condition "hdr.sml.isValid()" (node_2) is false
+[18:45:39.505] [bmv2] [D] [thread 2196] [5.0] [cxt 0] Pipeline 'ingress': end
+[18:45:39.505] [bmv2] [D] [thread 2196] [5.0] [cxt 0] Egress port is 0
+[18:45:39.506] [bmv2] [D] [thread 2197] [5.0] [cxt 0] Pipeline 'egress': start
+[18:45:39.507] [bmv2] [D] [thread 2197] [5.0] [cxt 0] Pipeline 'egress': end
+[18:45:39.507] [bmv2] [D] [thread 2197] [5.0] [cxt 0] Deparser 'deparser': start
+[18:45:39.507] [bmv2] [D] [thread 2197] [5.0] [cxt 0] Deparsing header 'eth'
+[18:45:39.508] [bmv2] [D] [thread 2197] [5.0] [cxt 0] Deparser 'deparser': end
+[18:45:39.508] [bmv2] [D] [thread 2201] [5.0] [cxt 0] Transmitting packet of size 90 out of port 0
+[18:45:39.911] [bmv2] [D] [thread 2196] [6.0] [cxt 0] Processing packet received on port 0
+[18:45:39.912] [bmv2] [D] [thread 2196] [6.0] [cxt 0] Parser 'parser': start
+[18:45:39.912] [bmv2] [D] [thread 2196] [6.0] [cxt 0] Parser 'parser' entering state 'start'
+[18:45:39.912] [bmv2] [D] [thread 2196] [6.0] [cxt 0] Extracting header 'eth'
+[18:45:39.913] [bmv2] [D] [thread 2196] [6.0] [cxt 0] Parser state 'start': key is 86dd
+[18:45:39.913] [bmv2] [T] [thread 2196] [6.0] [cxt 0] Bytes parsed: 14
+[18:45:39.914] [bmv2] [D] [thread 2196] [6.0] [cxt 0] Parser 'parser': end
+[18:45:39.914] [bmv2] [D] [thread 2196] [6.0] [cxt 0] Pipeline 'ingress': start
+[18:45:39.915] [bmv2] [T] [thread 2196] [6.0] [cxt 0] /vagrant/lab3/sml-eth/p4/main.p4(63) Condition "hdr.sml.isValid()" (node_2) is false
+[18:45:39.915] [bmv2] [D] [thread 2196] [6.0] [cxt 0] Pipeline 'ingress': end
+[18:45:39.915] [bmv2] [D] [thread 2196] [6.0] [cxt 0] Egress port is 0
+[18:45:39.916] [bmv2] [D] [thread 2196] [7.0] [cxt 0] Processing packet received on port 0
+[18:45:39.916] [bmv2] [D] [thread 2196] [7.0] [cxt 0] Parser 'parser': start
+[18:45:39.916] [bmv2] [D] [thread 2196] [7.0] [cxt 0] Parser 'parser' entering state 'start'
+[18:45:39.917] [bmv2] [D] [thread 2196] [7.0] [cxt 0] Extracting header 'eth'
+[18:45:39.917] [bmv2] [D] [thread 2196] [7.0] [cxt 0] Parser state 'start': key is 86dd
+[18:45:39.917] [bmv2] [T] [thread 2196] [7.0] [cxt 0] Bytes parsed: 14
+[18:45:39.918] [bmv2] [D] [thread 2196] [7.0] [cxt 0] Parser 'parser': end
+[18:45:39.918] [bmv2] [D] [thread 2196] [7.0] [cxt 0] Pipeline 'ingress': start
+[18:45:39.918] [bmv2] [T] [thread 2196] [7.0] [cxt 0] /vagrant/lab3/sml-eth/p4/main.p4(63) Condition "hdr.sml.isValid()" (node_2) is false
+[18:45:39.918] [bmv2] [D] [thread 2196] [7.0] [cxt 0] Pipeline 'ingress': end
+[18:45:39.919] [bmv2] [D] [thread 2196] [7.0] [cxt 0] Egress port is 0
+[18:45:39.916] [bmv2] [D] [thread 2197] [6.0] [cxt 0] Pipeline 'egress': start
+[18:45:39.919] [bmv2] [D] [thread 2197] [6.0] [cxt 0] Pipeline 'egress': end
+[18:45:39.919] [bmv2] [D] [thread 2197] [6.0] [cxt 0] Deparser 'deparser': start
+[18:45:39.920] [bmv2] [D] [thread 2197] [6.0] [cxt 0] Deparsing header 'eth'
+[18:45:39.920] [bmv2] [D] [thread 2197] [6.0] [cxt 0] Deparser 'deparser': end
+[18:45:39.920] [bmv2] [D] [thread 2197] [7.0] [cxt 0] Pipeline 'egress': start
+[18:45:39.920] [bmv2] [D] [thread 2197] [7.0] [cxt 0] Pipeline 'egress': end
+[18:45:39.920] [bmv2] [D] [thread 2197] [7.0] [cxt 0] Deparser 'deparser': start
+[18:45:39.921] [bmv2] [D] [thread 2197] [7.0] [cxt 0] Deparsing header 'eth'
+[18:45:39.921] [bmv2] [D] [thread 2197] [7.0] [cxt 0] Deparser 'deparser': end
+[18:45:39.920] [bmv2] [D] [thread 2201] [6.0] [cxt 0] Transmitting packet of size 90 out of port 0
+[18:45:39.921] [bmv2] [D] [thread 2201] [7.0] [cxt 0] Transmitting packet of size 70 out of port 0
+[18:45:40.894] [bmv2] [D] [thread 2196] [8.0] [cxt 0] Processing packet received on port 0
+[18:45:40.895] [bmv2] [D] [thread 2196] [8.0] [cxt 0] Parser 'parser': start
+[18:45:40.895] [bmv2] [D] [thread 2196] [8.0] [cxt 0] Parser 'parser' entering state 'start'
+[18:45:40.896] [bmv2] [D] [thread 2196] [8.0] [cxt 0] Extracting header 'eth'
+[18:45:40.896] [bmv2] [D] [thread 2196] [8.0] [cxt 0] Parser state 'start': key is 86dd
+[18:45:40.896] [bmv2] [T] [thread 2196] [8.0] [cxt 0] Bytes parsed: 14
+[18:45:40.896] [bmv2] [D] [thread 2196] [8.0] [cxt 0] Parser 'parser': end
+[18:45:40.897] [bmv2] [D] [thread 2196] [8.0] [cxt 0] Pipeline 'ingress': start
+[18:45:40.897] [bmv2] [T] [thread 2196] [8.0] [cxt 0] /vagrant/lab3/sml-eth/p4/main.p4(63) Condition "hdr.sml.isValid()" (node_2) is false
+[18:45:40.897] [bmv2] [D] [thread 2196] [8.0] [cxt 0] Pipeline 'ingress': end
+[18:45:40.898] [bmv2] [D] [thread 2196] [8.0] [cxt 0] Egress port is 0
+[18:45:40.898] [bmv2] [D] [thread 2197] [8.0] [cxt 0] Pipeline 'egress': start
+[18:45:40.898] [bmv2] [D] [thread 2197] [8.0] [cxt 0] Pipeline 'egress': end
+[18:45:40.898] [bmv2] [D] [thread 2197] [8.0] [cxt 0] Deparser 'deparser': start
+[18:45:40.899] [bmv2] [D] [thread 2197] [8.0] [cxt 0] Deparsing header 'eth'
+[18:45:40.899] [bmv2] [D] [thread 2197] [8.0] [cxt 0] Deparser 'deparser': end
+[18:45:40.899] [bmv2] [D] [thread 2201] [8.0] [cxt 0] Transmitting packet of size 90 out of port 0
+[18:45:43.675] [bmv2] [D] [thread 2196] [9.0] [cxt 0] Processing packet received on port 1
+[18:45:43.676] [bmv2] [D] [thread 2196] [9.0] [cxt 0] Parser 'parser': start
+[18:45:43.677] [bmv2] [D] [thread 2196] [9.0] [cxt 0] Parser 'parser' entering state 'start'
+[18:45:43.677] [bmv2] [D] [thread 2196] [9.0] [cxt 0] Extracting header 'eth'
+[18:45:43.677] [bmv2] [D] [thread 2196] [9.0] [cxt 0] Parser state 'start': key is 86dd
+[18:45:43.677] [bmv2] [T] [thread 2196] [9.0] [cxt 0] Bytes parsed: 14
+[18:45:43.678] [bmv2] [D] [thread 2196] [9.0] [cxt 0] Parser 'parser': end
+[18:45:43.678] [bmv2] [D] [thread 2196] [9.0] [cxt 0] Pipeline 'ingress': start
+[18:45:43.679] [bmv2] [T] [thread 2196] [9.0] [cxt 0] /vagrant/lab3/sml-eth/p4/main.p4(63) Condition "hdr.sml.isValid()" (node_2) is false
+[18:45:43.679] [bmv2] [D] [thread 2196] [9.0] [cxt 0] Pipeline 'ingress': end
+[18:45:43.679] [bmv2] [D] [thread 2196] [9.0] [cxt 0] Egress port is 0
+[18:45:43.680] [bmv2] [D] [thread 2197] [9.0] [cxt 0] Pipeline 'egress': start
+[18:45:43.680] [bmv2] [D] [thread 2197] [9.0] [cxt 0] Pipeline 'egress': end
+[18:45:43.680] [bmv2] [D] [thread 2197] [9.0] [cxt 0] Deparser 'deparser': start
+[18:45:43.681] [bmv2] [D] [thread 2197] [9.0] [cxt 0] Deparsing header 'eth'
+[18:45:43.681] [bmv2] [D] [thread 2197] [9.0] [cxt 0] Deparser 'deparser': end
+[18:45:43.681] [bmv2] [D] [thread 2201] [9.0] [cxt 0] Transmitting packet of size 70 out of port 0
+[18:45:43.923] [bmv2] [D] [thread 2196] [10.0] [cxt 0] Processing packet received on port 0
+[18:45:43.923] [bmv2] [D] [thread 2196] [10.0] [cxt 0] Parser 'parser': start
+[18:45:43.923] [bmv2] [D] [thread 2196] [10.0] [cxt 0] Parser 'parser' entering state 'start'
+[18:45:43.923] [bmv2] [D] [thread 2196] [10.0] [cxt 0] Extracting header 'eth'
+[18:45:43.924] [bmv2] [D] [thread 2196] [10.0] [cxt 0] Parser state 'start': key is 86dd
+[18:45:43.924] [bmv2] [T] [thread 2196] [10.0] [cxt 0] Bytes parsed: 14
+[18:45:43.925] [bmv2] [D] [thread 2196] [10.0] [cxt 0] Parser 'parser': end
+[18:45:43.925] [bmv2] [D] [thread 2196] [10.0] [cxt 0] Pipeline 'ingress': start
+[18:45:43.925] [bmv2] [T] [thread 2196] [10.0] [cxt 0] /vagrant/lab3/sml-eth/p4/main.p4(63) Condition "hdr.sml.isValid()" (node_2) is false
+[18:45:43.925] [bmv2] [D] [thread 2196] [10.0] [cxt 0] Pipeline 'ingress': end
+[18:45:43.925] [bmv2] [D] [thread 2196] [10.0] [cxt 0] Egress port is 0
+[18:45:43.925] [bmv2] [D] [thread 2197] [10.0] [cxt 0] Pipeline 'egress': start
+[18:45:43.925] [bmv2] [D] [thread 2197] [10.0] [cxt 0] Pipeline 'egress': end
+[18:45:43.925] [bmv2] [D] [thread 2197] [10.0] [cxt 0] Deparser 'deparser': start
+[18:45:43.925] [bmv2] [D] [thread 2197] [10.0] [cxt 0] Deparsing header 'eth'
+[18:45:43.925] [bmv2] [D] [thread 2197] [10.0] [cxt 0] Deparser 'deparser': end
+[18:45:43.926] [bmv2] [D] [thread 2201] [10.0] [cxt 0] Transmitting packet of size 70 out of port 0
+[18:45:51.605] [bmv2] [D] [thread 2196] [11.0] [cxt 0] Processing packet received on port 0
+[18:45:51.605] [bmv2] [D] [thread 2196] [11.0] [cxt 0] Parser 'parser': start
+[18:45:51.606] [bmv2] [D] [thread 2196] [11.0] [cxt 0] Parser 'parser' entering state 'start'
+[18:45:51.606] [bmv2] [D] [thread 2196] [11.0] [cxt 0] Extracting header 'eth'
+[18:45:51.607] [bmv2] [D] [thread 2196] [11.0] [cxt 0] Parser state 'start': key is 86dd
+[18:45:51.607] [bmv2] [T] [thread 2196] [11.0] [cxt 0] Bytes parsed: 14
+[18:45:51.607] [bmv2] [D] [thread 2196] [11.0] [cxt 0] Parser 'parser': end
+[18:45:51.607] [bmv2] [D] [thread 2196] [11.0] [cxt 0] Pipeline 'ingress': start
+[18:45:51.608] [bmv2] [T] [thread 2196] [11.0] [cxt 0] /vagrant/lab3/sml-eth/p4/main.p4(63) Condition "hdr.sml.isValid()" (node_2) is false
+[18:45:51.608] [bmv2] [D] [thread 2196] [11.0] [cxt 0] Pipeline 'ingress': end
+[18:45:51.608] [bmv2] [D] [thread 2196] [11.0] [cxt 0] Egress port is 0
+[18:45:51.608] [bmv2] [D] [thread 2196] [12.0] [cxt 0] Processing packet received on port 1
+[18:45:51.609] [bmv2] [D] [thread 2196] [12.0] [cxt 0] Parser 'parser': start
+[18:45:51.609] [bmv2] [D] [thread 2196] [12.0] [cxt 0] Parser 'parser' entering state 'start'
+[18:45:51.609] [bmv2] [D] [thread 2196] [12.0] [cxt 0] Extracting header 'eth'
+[18:45:51.609] [bmv2] [D] [thread 2196] [12.0] [cxt 0] Parser state 'start': key is 86dd
+[18:45:51.610] [bmv2] [T] [thread 2196] [12.0] [cxt 0] Bytes parsed: 14
+[18:45:51.610] [bmv2] [D] [thread 2196] [12.0] [cxt 0] Parser 'parser': end
+[18:45:51.610] [bmv2] [D] [thread 2196] [12.0] [cxt 0] Pipeline 'ingress': start
+[18:45:51.610] [bmv2] [T] [thread 2196] [12.0] [cxt 0] /vagrant/lab3/sml-eth/p4/main.p4(63) Condition "hdr.sml.isValid()" (node_2) is false
+[18:45:51.610] [bmv2] [D] [thread 2196] [12.0] [cxt 0] Pipeline 'ingress': end
+[18:45:51.610] [bmv2] [D] [thread 2196] [12.0] [cxt 0] Egress port is 0
+[18:45:51.609] [bmv2] [D] [thread 2197] [11.0] [cxt 0] Pipeline 'egress': start
+[18:45:51.611] [bmv2] [D] [thread 2197] [11.0] [cxt 0] Pipeline 'egress': end
+[18:45:51.611] [bmv2] [D] [thread 2197] [11.0] [cxt 0] Deparser 'deparser': start
+[18:45:51.611] [bmv2] [D] [thread 2197] [11.0] [cxt 0] Deparsing header 'eth'
+[18:45:51.611] [bmv2] [D] [thread 2197] [11.0] [cxt 0] Deparser 'deparser': end
+[18:45:51.611] [bmv2] [D] [thread 2197] [12.0] [cxt 0] Pipeline 'egress': start
+[18:45:51.611] [bmv2] [D] [thread 2197] [12.0] [cxt 0] Pipeline 'egress': end
+[18:45:51.611] [bmv2] [D] [thread 2197] [12.0] [cxt 0] Deparser 'deparser': start
+[18:45:51.611] [bmv2] [D] [thread 2201] [11.0] [cxt 0] Transmitting packet of size 70 out of port 0
+[18:45:51.612] [bmv2] [D] [thread 2197] [12.0] [cxt 0] Deparsing header 'eth'
+[18:45:51.612] [bmv2] [D] [thread 2197] [12.0] [cxt 0] Deparser 'deparser': end
+[18:45:51.612] [bmv2] [D] [thread 2201] [12.0] [cxt 0] Transmitting packet of size 70 out of port 0
+[18:46:06.206] [bmv2] [D] [thread 2196] [13.0] [cxt 0] Processing packet received on port 0
+[18:46:06.206] [bmv2] [D] [thread 2196] [13.0] [cxt 0] Parser 'parser': start
+[18:46:06.207] [bmv2] [D] [thread 2196] [13.0] [cxt 0] Parser 'parser' entering state 'start'
+[18:46:06.207] [bmv2] [D] [thread 2196] [13.0] [cxt 0] Extracting header 'eth'
+[18:46:06.208] [bmv2] [D] [thread 2196] [13.0] [cxt 0] Parser state 'start': key is 86dd
+[18:46:06.208] [bmv2] [T] [thread 2196] [13.0] [cxt 0] Bytes parsed: 14
+[18:46:06.208] [bmv2] [D] [thread 2196] [13.0] [cxt 0] Parser 'parser': end
+[18:46:06.209] [bmv2] [D] [thread 2196] [13.0] [cxt 0] Pipeline 'ingress': start
+[18:46:06.209] [bmv2] [T] [thread 2196] [13.0] [cxt 0] /vagrant/lab3/sml-eth/p4/main.p4(63) Condition "hdr.sml.isValid()" (node_2) is false
+[18:46:06.209] [bmv2] [D] [thread 2196] [13.0] [cxt 0] Pipeline 'ingress': end
+[18:46:06.209] [bmv2] [D] [thread 2196] [13.0] [cxt 0] Egress port is 0
+[18:46:06.210] [bmv2] [D] [thread 2197] [13.0] [cxt 0] Pipeline 'egress': start
+[18:46:06.210] [bmv2] [D] [thread 2197] [13.0] [cxt 0] Pipeline 'egress': end
+[18:46:06.210] [bmv2] [D] [thread 2197] [13.0] [cxt 0] Deparser 'deparser': start
+[18:46:06.211] [bmv2] [D] [thread 2197] [13.0] [cxt 0] Deparsing header 'eth'
+[18:46:06.211] [bmv2] [D] [thread 2197] [13.0] [cxt 0] Deparser 'deparser': end
+[18:46:06.211] [bmv2] [D] [thread 2201] [13.0] [cxt 0] Transmitting packet of size 70 out of port 0
+[18:46:07.987] [bmv2] [D] [thread 2196] [14.0] [cxt 0] Processing packet received on port 1
+[18:46:07.988] [bmv2] [D] [thread 2196] [14.0] [cxt 0] Parser 'parser': start
+[18:46:07.988] [bmv2] [D] [thread 2196] [14.0] [cxt 0] Parser 'parser' entering state 'start'
+[18:46:07.989] [bmv2] [D] [thread 2196] [14.0] [cxt 0] Extracting header 'eth'
+[18:46:07.989] [bmv2] [D] [thread 2196] [14.0] [cxt 0] Parser state 'start': key is 86dd
+[18:46:07.990] [bmv2] [T] [thread 2196] [14.0] [cxt 0] Bytes parsed: 14
+[18:46:07.990] [bmv2] [D] [thread 2196] [14.0] [cxt 0] Parser 'parser': end
+[18:46:07.991] [bmv2] [D] [thread 2196] [14.0] [cxt 0] Pipeline 'ingress': start
+[18:46:07.991] [bmv2] [T] [thread 2196] [14.0] [cxt 0] /vagrant/lab3/sml-eth/p4/main.p4(63) Condition "hdr.sml.isValid()" (node_2) is false
+[18:46:07.991] [bmv2] [D] [thread 2196] [14.0] [cxt 0] Pipeline 'ingress': end
+[18:46:07.991] [bmv2] [D] [thread 2196] [14.0] [cxt 0] Egress port is 0
+[18:46:07.992] [bmv2] [D] [thread 2197] [14.0] [cxt 0] Pipeline 'egress': start
+[18:46:07.992] [bmv2] [D] [thread 2197] [14.0] [cxt 0] Pipeline 'egress': end
+[18:46:07.993] [bmv2] [D] [thread 2197] [14.0] [cxt 0] Deparser 'deparser': start
+[18:46:07.993] [bmv2] [D] [thread 2197] [14.0] [cxt 0] Deparsing header 'eth'
+[18:46:07.993] [bmv2] [D] [thread 2197] [14.0] [cxt 0] Deparser 'deparser': end
+[18:46:07.994] [bmv2] [D] [thread 2201] [14.0] [cxt 0] Transmitting packet of size 70 out of port 0
+[18:46:34.611] [bmv2] [D] [thread 2196] [15.0] [cxt 0] Processing packet received on port 0
+[18:46:34.611] [bmv2] [D] [thread 2196] [15.0] [cxt 0] Parser 'parser': start
+[18:46:34.611] [bmv2] [D] [thread 2196] [15.0] [cxt 0] Parser 'parser' entering state 'start'
+[18:46:34.612] [bmv2] [D] [thread 2196] [15.0] [cxt 0] Extracting header 'eth'
+[18:46:34.612] [bmv2] [D] [thread 2196] [15.0] [cxt 0] Parser state 'start': key is 86dd
+[18:46:34.612] [bmv2] [T] [thread 2196] [15.0] [cxt 0] Bytes parsed: 14
+[18:46:34.612] [bmv2] [D] [thread 2196] [15.0] [cxt 0] Parser 'parser': end
+[18:46:34.612] [bmv2] [D] [thread 2196] [15.0] [cxt 0] Pipeline 'ingress': start
+[18:46:34.612] [bmv2] [T] [thread 2196] [15.0] [cxt 0] /vagrant/lab3/sml-eth/p4/main.p4(63) Condition "hdr.sml.isValid()" (node_2) is false
+[18:46:34.612] [bmv2] [D] [thread 2196] [15.0] [cxt 0] Pipeline 'ingress': end
+[18:46:34.612] [bmv2] [D] [thread 2196] [15.0] [cxt 0] Egress port is 0
+[18:46:34.613] [bmv2] [D] [thread 2197] [15.0] [cxt 0] Pipeline 'egress': start
+[18:46:34.613] [bmv2] [D] [thread 2197] [15.0] [cxt 0] Pipeline 'egress': end
+[18:46:34.613] [bmv2] [D] [thread 2197] [15.0] [cxt 0] Deparser 'deparser': start
+[18:46:34.613] [bmv2] [D] [thread 2197] [15.0] [cxt 0] Deparsing header 'eth'
+[18:46:34.613] [bmv2] [D] [thread 2197] [15.0] [cxt 0] Deparser 'deparser': end
+[18:46:34.613] [bmv2] [D] [thread 2201] [15.0] [cxt 0] Transmitting packet of size 70 out of port 0
+[18:46:40.758] [bmv2] [D] [thread 2196] [16.0] [cxt 0] Processing packet received on port 1
+[18:46:40.759] [bmv2] [D] [thread 2196] [16.0] [cxt 0] Parser 'parser': start
+[18:46:40.759] [bmv2] [D] [thread 2196] [16.0] [cxt 0] Parser 'parser' entering state 'start'
+[18:46:40.759] [bmv2] [D] [thread 2196] [16.0] [cxt 0] Extracting header 'eth'
+[18:46:40.759] [bmv2] [D] [thread 2196] [16.0] [cxt 0] Parser state 'start': key is 86dd
+[18:46:40.759] [bmv2] [T] [thread 2196] [16.0] [cxt 0] Bytes parsed: 14
+[18:46:40.759] [bmv2] [D] [thread 2196] [16.0] [cxt 0] Parser 'parser': end
+[18:46:40.759] [bmv2] [D] [thread 2196] [16.0] [cxt 0] Pipeline 'ingress': start
+[18:46:40.759] [bmv2] [T] [thread 2196] [16.0] [cxt 0] /vagrant/lab3/sml-eth/p4/main.p4(63) Condition "hdr.sml.isValid()" (node_2) is false
+[18:46:40.759] [bmv2] [D] [thread 2196] [16.0] [cxt 0] Pipeline 'ingress': end
+[18:46:40.759] [bmv2] [D] [thread 2196] [16.0] [cxt 0] Egress port is 0
+[18:46:40.759] [bmv2] [D] [thread 2197] [16.0] [cxt 0] Pipeline 'egress': start
+[18:46:40.759] [bmv2] [D] [thread 2197] [16.0] [cxt 0] Pipeline 'egress': end
+[18:46:40.759] [bmv2] [D] [thread 2197] [16.0] [cxt 0] Deparser 'deparser': start
+[18:46:40.759] [bmv2] [D] [thread 2197] [16.0] [cxt 0] Deparsing header 'eth'
+[18:46:40.760] [bmv2] [D] [thread 2197] [16.0] [cxt 0] Deparser 'deparser': end
+[18:46:40.760] [bmv2] [D] [thread 2201] [16.0] [cxt 0] Transmitting packet of size 70 out of port 0
+[18:47:31.955] [bmv2] [D] [thread 2196] [17.0] [cxt 0] Processing packet received on port 0
+[18:47:31.955] [bmv2] [D] [thread 2196] [17.0] [cxt 0] Parser 'parser': start
+[18:47:31.956] [bmv2] [D] [thread 2196] [17.0] [cxt 0] Parser 'parser' entering state 'start'
+[18:47:31.956] [bmv2] [D] [thread 2196] [17.0] [cxt 0] Extracting header 'eth'
+[18:47:31.956] [bmv2] [D] [thread 2196] [17.0] [cxt 0] Parser state 'start': key is 86dd
+[18:47:31.957] [bmv2] [T] [thread 2196] [17.0] [cxt 0] Bytes parsed: 14
+[18:47:31.957] [bmv2] [D] [thread 2196] [17.0] [cxt 0] Parser 'parser': end
+[18:47:31.957] [bmv2] [D] [thread 2196] [17.0] [cxt 0] Pipeline 'ingress': start
+[18:47:31.958] [bmv2] [T] [thread 2196] [17.0] [cxt 0] /vagrant/lab3/sml-eth/p4/main.p4(63) Condition "hdr.sml.isValid()" (node_2) is false
+[18:47:31.958] [bmv2] [D] [thread 2196] [17.0] [cxt 0] Pipeline 'ingress': end
+[18:47:31.958] [bmv2] [D] [thread 2196] [17.0] [cxt 0] Egress port is 0
+[18:47:31.958] [bmv2] [D] [thread 2197] [17.0] [cxt 0] Pipeline 'egress': start
+[18:47:31.958] [bmv2] [D] [thread 2197] [17.0] [cxt 0] Pipeline 'egress': end
+[18:47:31.959] [bmv2] [D] [thread 2197] [17.0] [cxt 0] Deparser 'deparser': start
+[18:47:31.959] [bmv2] [D] [thread 2197] [17.0] [cxt 0] Deparsing header 'eth'
+[18:47:31.959] [bmv2] [D] [thread 2197] [17.0] [cxt 0] Deparser 'deparser': end
+[18:47:31.959] [bmv2] [D] [thread 2201] [17.0] [cxt 0] Transmitting packet of size 70 out of port 0
+[18:47:44.261] [bmv2] [D] [thread 2196] [18.0] [cxt 0] Processing packet received on port 1
+[18:47:44.262] [bmv2] [D] [thread 2196] [18.0] [cxt 0] Parser 'parser': start
+[18:47:44.262] [bmv2] [D] [thread 2196] [18.0] [cxt 0] Parser 'parser' entering state 'start'
+[18:47:44.262] [bmv2] [D] [thread 2196] [18.0] [cxt 0] Extracting header 'eth'
+[18:47:44.263] [bmv2] [D] [thread 2196] [18.0] [cxt 0] Parser state 'start': key is 86dd
+[18:47:44.263] [bmv2] [T] [thread 2196] [18.0] [cxt 0] Bytes parsed: 14
+[18:47:44.263] [bmv2] [D] [thread 2196] [18.0] [cxt 0] Parser 'parser': end
+[18:47:44.264] [bmv2] [D] [thread 2196] [18.0] [cxt 0] Pipeline 'ingress': start
+[18:47:44.265] [bmv2] [T] [thread 2196] [18.0] [cxt 0] /vagrant/lab3/sml-eth/p4/main.p4(63) Condition "hdr.sml.isValid()" (node_2) is false
+[18:47:44.265] [bmv2] [D] [thread 2196] [18.0] [cxt 0] Pipeline 'ingress': end
+[18:47:44.265] [bmv2] [D] [thread 2196] [18.0] [cxt 0] Egress port is 0
+[18:47:44.266] [bmv2] [D] [thread 2197] [18.0] [cxt 0] Pipeline 'egress': start
+[18:47:44.266] [bmv2] [D] [thread 2197] [18.0] [cxt 0] Pipeline 'egress': end
+[18:47:44.267] [bmv2] [D] [thread 2197] [18.0] [cxt 0] Deparser 'deparser': start
+[18:47:44.267] [bmv2] [D] [thread 2197] [18.0] [cxt 0] Deparsing header 'eth'
+[18:47:44.267] [bmv2] [D] [thread 2197] [18.0] [cxt 0] Deparser 'deparser': end
+[18:47:44.268] [bmv2] [D] [thread 2201] [18.0] [cxt 0] Transmitting packet of size 70 out of port 0
+[18:49:24.646] [bmv2] [D] [thread 2196] [19.0] [cxt 0] Processing packet received on port 0
+[18:49:24.646] [bmv2] [D] [thread 2196] [19.0] [cxt 0] Parser 'parser': start
+[18:49:24.646] [bmv2] [D] [thread 2196] [19.0] [cxt 0] Parser 'parser' entering state 'start'
+[18:49:24.646] [bmv2] [D] [thread 2196] [19.0] [cxt 0] Extracting header 'eth'
+[18:49:24.647] [bmv2] [D] [thread 2196] [19.0] [cxt 0] Parser state 'start': key is 86dd
+[18:49:24.647] [bmv2] [T] [thread 2196] [19.0] [cxt 0] Bytes parsed: 14
+[18:49:24.647] [bmv2] [D] [thread 2196] [19.0] [cxt 0] Parser 'parser': end
+[18:49:24.647] [bmv2] [D] [thread 2196] [19.0] [cxt 0] Pipeline 'ingress': start
+[18:49:24.647] [bmv2] [T] [thread 2196] [19.0] [cxt 0] /vagrant/lab3/sml-eth/p4/main.p4(63) Condition "hdr.sml.isValid()" (node_2) is false
+[18:49:24.647] [bmv2] [D] [thread 2196] [19.0] [cxt 0] Pipeline 'ingress': end
+[18:49:24.647] [bmv2] [D] [thread 2196] [19.0] [cxt 0] Egress port is 0
+[18:49:24.647] [bmv2] [D] [thread 2197] [19.0] [cxt 0] Pipeline 'egress': start
+[18:49:24.647] [bmv2] [D] [thread 2197] [19.0] [cxt 0] Pipeline 'egress': end
+[18:49:24.647] [bmv2] [D] [thread 2197] [19.0] [cxt 0] Deparser 'deparser': start
+[18:49:24.647] [bmv2] [D] [thread 2197] [19.0] [cxt 0] Deparsing header 'eth'
+[18:49:24.647] [bmv2] [D] [thread 2197] [19.0] [cxt 0] Deparser 'deparser': end
+[18:49:24.647] [bmv2] [D] [thread 2201] [19.0] [cxt 0] Transmitting packet of size 70 out of port 0
+[18:49:51.228] [bmv2] [D] [thread 2196] [20.0] [cxt 0] Processing packet received on port 1
+[18:49:51.228] [bmv2] [D] [thread 2196] [20.0] [cxt 0] Parser 'parser': start
+[18:49:51.228] [bmv2] [D] [thread 2196] [20.0] [cxt 0] Parser 'parser' entering state 'start'
+[18:49:51.229] [bmv2] [D] [thread 2196] [20.0] [cxt 0] Extracting header 'eth'
+[18:49:51.229] [bmv2] [D] [thread 2196] [20.0] [cxt 0] Parser state 'start': key is 86dd
+[18:49:51.229] [bmv2] [T] [thread 2196] [20.0] [cxt 0] Bytes parsed: 14
+[18:49:51.229] [bmv2] [D] [thread 2196] [20.0] [cxt 0] Parser 'parser': end
+[18:49:51.230] [bmv2] [D] [thread 2196] [20.0] [cxt 0] Pipeline 'ingress': start
+[18:49:51.230] [bmv2] [T] [thread 2196] [20.0] [cxt 0] /vagrant/lab3/sml-eth/p4/main.p4(63) Condition "hdr.sml.isValid()" (node_2) is false
+[18:49:51.230] [bmv2] [D] [thread 2196] [20.0] [cxt 0] Pipeline 'ingress': end
+[18:49:51.230] [bmv2] [D] [thread 2196] [20.0] [cxt 0] Egress port is 0
+[18:49:51.230] [bmv2] [D] [thread 2197] [20.0] [cxt 0] Pipeline 'egress': start
+[18:49:51.231] [bmv2] [D] [thread 2197] [20.0] [cxt 0] Pipeline 'egress': end
+[18:49:51.231] [bmv2] [D] [thread 2197] [20.0] [cxt 0] Deparser 'deparser': start
+[18:49:51.231] [bmv2] [D] [thread 2197] [20.0] [cxt 0] Deparsing header 'eth'
+[18:49:51.231] [bmv2] [D] [thread 2197] [20.0] [cxt 0] Deparser 'deparser': end
+[18:49:51.231] [bmv2] [D] [thread 2201] [20.0] [cxt 0] Transmitting packet of size 70 out of port 0
+[18:53:01.690] [bmv2] [D] [thread 2196] [21.0] [cxt 0] Processing packet received on port 0
+[18:53:01.690] [bmv2] [D] [thread 2196] [21.0] [cxt 0] Parser 'parser': start
+[18:53:01.691] [bmv2] [D] [thread 2196] [21.0] [cxt 0] Parser 'parser' entering state 'start'
+[18:53:01.691] [bmv2] [D] [thread 2196] [21.0] [cxt 0] Extracting header 'eth'
+[18:53:01.691] [bmv2] [D] [thread 2196] [21.0] [cxt 0] Parser state 'start': key is 86dd
+[18:53:01.691] [bmv2] [T] [thread 2196] [21.0] [cxt 0] Bytes parsed: 14
+[18:53:01.692] [bmv2] [D] [thread 2196] [21.0] [cxt 0] Parser 'parser': end
+[18:53:01.692] [bmv2] [D] [thread 2196] [21.0] [cxt 0] Pipeline 'ingress': start
+[18:53:01.692] [bmv2] [T] [thread 2196] [21.0] [cxt 0] /vagrant/lab3/sml-eth/p4/main.p4(63) Condition "hdr.sml.isValid()" (node_2) is false
+[18:53:01.692] [bmv2] [D] [thread 2196] [21.0] [cxt 0] Pipeline 'ingress': end
+[18:53:01.692] [bmv2] [D] [thread 2196] [21.0] [cxt 0] Egress port is 0
+[18:53:01.693] [bmv2] [D] [thread 2197] [21.0] [cxt 0] Pipeline 'egress': start
+[18:53:01.693] [bmv2] [D] [thread 2197] [21.0] [cxt 0] Pipeline 'egress': end
+[18:53:01.693] [bmv2] [D] [thread 2197] [21.0] [cxt 0] Deparser 'deparser': start
+[18:53:01.693] [bmv2] [D] [thread 2197] [21.0] [cxt 0] Deparsing header 'eth'
+[18:53:01.693] [bmv2] [D] [thread 2197] [21.0] [cxt 0] Deparser 'deparser': end
+[18:53:01.693] [bmv2] [D] [thread 2201] [21.0] [cxt 0] Transmitting packet of size 70 out of port 0
+[18:54:07.262] [bmv2] [D] [thread 2196] [22.0] [cxt 0] Processing packet received on port 1
+[18:54:07.262] [bmv2] [D] [thread 2196] [22.0] [cxt 0] Parser 'parser': start
+[18:54:07.262] [bmv2] [D] [thread 2196] [22.0] [cxt 0] Parser 'parser' entering state 'start'
+[18:54:07.262] [bmv2] [D] [thread 2196] [22.0] [cxt 0] Extracting header 'eth'
+[18:54:07.263] [bmv2] [D] [thread 2196] [22.0] [cxt 0] Parser state 'start': key is 86dd
+[18:54:07.263] [bmv2] [T] [thread 2196] [22.0] [cxt 0] Bytes parsed: 14
+[18:54:07.263] [bmv2] [D] [thread 2196] [22.0] [cxt 0] Parser 'parser': end
+[18:54:07.263] [bmv2] [D] [thread 2196] [22.0] [cxt 0] Pipeline 'ingress': start
+[18:54:07.263] [bmv2] [T] [thread 2196] [22.0] [cxt 0] /vagrant/lab3/sml-eth/p4/main.p4(63) Condition "hdr.sml.isValid()" (node_2) is false
+[18:54:07.263] [bmv2] [D] [thread 2196] [22.0] [cxt 0] Pipeline 'ingress': end
+[18:54:07.263] [bmv2] [D] [thread 2196] [22.0] [cxt 0] Egress port is 0
+[18:54:07.263] [bmv2] [D] [thread 2197] [22.0] [cxt 0] Pipeline 'egress': start
+[18:54:07.263] [bmv2] [D] [thread 2197] [22.0] [cxt 0] Pipeline 'egress': end
+[18:54:07.264] [bmv2] [D] [thread 2197] [22.0] [cxt 0] Deparser 'deparser': start
+[18:54:07.264] [bmv2] [D] [thread 2197] [22.0] [cxt 0] Deparsing header 'eth'
+[18:54:07.264] [bmv2] [D] [thread 2197] [22.0] [cxt 0] Deparser 'deparser': end
+[18:54:07.264] [bmv2] [D] [thread 2201] [22.0] [cxt 0] Transmitting packet of size 70 out of port 0
+[19:00:40.436] [bmv2] [D] [thread 2196] [23.0] [cxt 0] Processing packet received on port 0
+[19:00:40.437] [bmv2] [D] [thread 2196] [23.0] [cxt 0] Parser 'parser': start
+[19:00:40.438] [bmv2] [D] [thread 2196] [23.0] [cxt 0] Parser 'parser' entering state 'start'
+[19:00:40.439] [bmv2] [D] [thread 2196] [23.0] [cxt 0] Extracting header 'eth'
+[19:00:40.439] [bmv2] [D] [thread 2196] [23.0] [cxt 0] Parser state 'start': key is 86dd
+[19:00:40.440] [bmv2] [T] [thread 2196] [23.0] [cxt 0] Bytes parsed: 14
+[19:00:40.441] [bmv2] [D] [thread 2196] [23.0] [cxt 0] Parser 'parser': end
+[19:00:40.442] [bmv2] [D] [thread 2196] [23.0] [cxt 0] Pipeline 'ingress': start
+[19:00:40.442] [bmv2] [T] [thread 2196] [23.0] [cxt 0] /vagrant/lab3/sml-eth/p4/main.p4(63) Condition "hdr.sml.isValid()" (node_2) is false
+[19:00:40.443] [bmv2] [D] [thread 2196] [23.0] [cxt 0] Pipeline 'ingress': end
+[19:00:40.443] [bmv2] [D] [thread 2196] [23.0] [cxt 0] Egress port is 0
+[19:00:40.444] [bmv2] [D] [thread 2197] [23.0] [cxt 0] Pipeline 'egress': start
+[19:00:40.444] [bmv2] [D] [thread 2197] [23.0] [cxt 0] Pipeline 'egress': end
+[19:00:40.444] [bmv2] [D] [thread 2197] [23.0] [cxt 0] Deparser 'deparser': start
+[19:00:40.445] [bmv2] [D] [thread 2197] [23.0] [cxt 0] Deparsing header 'eth'
+[19:00:40.445] [bmv2] [D] [thread 2197] [23.0] [cxt 0] Deparser 'deparser': end
+[19:00:40.445] [bmv2] [D] [thread 2201] [23.0] [cxt 0] Transmitting packet of size 70 out of port 0
+[19:02:35.124] [bmv2] [D] [thread 2196] [24.0] [cxt 0] Processing packet received on port 1
+[19:02:35.124] [bmv2] [D] [thread 2196] [24.0] [cxt 0] Parser 'parser': start
+[19:02:35.125] [bmv2] [D] [thread 2196] [24.0] [cxt 0] Parser 'parser' entering state 'start'
+[19:02:35.125] [bmv2] [D] [thread 2196] [24.0] [cxt 0] Extracting header 'eth'
+[19:02:35.125] [bmv2] [D] [thread 2196] [24.0] [cxt 0] Parser state 'start': key is 86dd
+[19:02:35.126] [bmv2] [T] [thread 2196] [24.0] [cxt 0] Bytes parsed: 14
+[19:02:35.127] [bmv2] [D] [thread 2196] [24.0] [cxt 0] Parser 'parser': end
+[19:02:35.127] [bmv2] [D] [thread 2196] [24.0] [cxt 0] Pipeline 'ingress': start
+[19:02:35.128] [bmv2] [T] [thread 2196] [24.0] [cxt 0] /vagrant/lab3/sml-eth/p4/main.p4(63) Condition "hdr.sml.isValid()" (node_2) is false
+[19:02:35.128] [bmv2] [D] [thread 2196] [24.0] [cxt 0] Pipeline 'ingress': end
+[19:02:35.128] [bmv2] [D] [thread 2196] [24.0] [cxt 0] Egress port is 0
+[19:02:35.129] [bmv2] [D] [thread 2197] [24.0] [cxt 0] Pipeline 'egress': start
+[19:02:35.129] [bmv2] [D] [thread 2197] [24.0] [cxt 0] Pipeline 'egress': end
+[19:02:35.130] [bmv2] [D] [thread 2197] [24.0] [cxt 0] Deparser 'deparser': start
+[19:02:35.130] [bmv2] [D] [thread 2197] [24.0] [cxt 0] Deparsing header 'eth'
+[19:02:35.130] [bmv2] [D] [thread 2197] [24.0] [cxt 0] Deparser 'deparser': end
+[19:02:35.130] [bmv2] [D] [thread 2201] [24.0] [cxt 0] Transmitting packet of size 70 out of port 0
+open: No such file or directory
+open: No such file or directory

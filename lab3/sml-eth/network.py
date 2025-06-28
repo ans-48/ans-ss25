@@ -11,7 +11,7 @@
  The above copyright notice and this permission notice shall be included in all
  copies or substantial portions of the Software.
 
- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
  FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
  COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
@@ -25,36 +25,50 @@ from mininet.topo import Topo
 from mininet.cli import CLI
 import os
 
-NUM_WORKERS = 2 # TODO: Make sure your program can handle larger values
+NUM_WORKERS = 2
 
 class SMLTopo(Topo):
-    def __init__(self, **opts):
+    def __init__(self, num_workers, **opts):
         Topo.__init__(self, **opts)
-        # TODO: Implement me. Feel free to modify the constructor signature
-        # NOTE: Make sure worker names are consistent with RunWorkers() below
+        
+        switch = self.addSwitch('s1')
+
+        for i in range(num_workers):
+            mac = f'00:00:00:00:00:{i+1:02x}'
+            host = self.addHost(f'w{i}', mac=mac)
+            self.addLink(host, switch, port2=i)
 
 def RunWorkers(net):
     """
     Starts the workers and waits for their completion.
-    Redirects output to logs/<worker_name>.log (see lib/worker.py, Log())
-    This function assumes worker i is named 'w<i>'. Feel free to modify it
-    if your naming scheme is different
     """
     worker = lambda rank: "w%i" % rank
     log_file = lambda rank: os.path.join(os.environ['APP_LOGS'], "%s.log" % worker(rank))
+    
     for i in range(NUM_WORKERS):
-        net.get(worker(i)).sendCmd('python worker.py %d > %s' % (i, log_file(i)))
+        cmd = f'python worker.py {i} > {log_file(i)} 2>&1'
+        net.get(worker(i)).sendCmd(cmd)
+    
     for i in range(NUM_WORKERS):
         net.get(worker(i)).waitOutput()
 
 def RunControlPlane(net):
     """
-    One-time control plane configuration
+    One-time control plane configuration.
+    Here, we set up the multicast group for broadcasting results.
     """
-    # TODO: Implement me (if needed)
-    pass
+    sw_controller = net.get('s1')
+    worker_ports = list(range(NUM_WORKERS))
+    mc_group_id = 1
 
-topo = None # TODO: Create an SMLTopo instance
+    # CORRECTED: The multicast group ID is the first positional argument,
+    # and the ports are passed via the 'ports' keyword argument.
+    sw_controller.addMulticastGroup(mc_group_id, ports=worker_ports)
+    
+    print(f"Configured multicast group {mc_group_id} on s1 with ports: {worker_ports}")
+
+
+topo = SMLTopo(num_workers=NUM_WORKERS)
 net = P4Mininet(program="p4/main.p4", topo=topo)
 net.run_control_plane = lambda: RunControlPlane(net)
 net.run_workers = lambda: RunWorkers(net)
