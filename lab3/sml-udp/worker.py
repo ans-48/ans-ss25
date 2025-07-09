@@ -1,73 +1,62 @@
 """
  Copyright (c) 2025 Computer Networks Group @ UPB
-
- Permission is hereby granted, free of charge, to any person obtaining a copy of
- this software and associated documentation files (the "Software"), to deal in
- the Software without restriction, including without limitation the rights to
- use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
- the Software, and to permit persons to whom the Software is furnished to do so,
- subject to the following conditions:
-
- The above copyright notice and this permission notice shall be included in all
- copies or substantial portions of the Software.
-
- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- """
+"""
 
 from lib.gen import GenInts, GenMultipleOfInRange
 from lib.test import CreateTestData, RunIntTest
 from lib.worker import *
-from scapy.all import Packet
 import socket
+import struct
+from lib.comm import send, receive
 
-NUM_ITER   = 1     # TODO: Make sure your program can handle larger values
-CHUNK_SIZE = None  # TODO: Define me
+NUM_ITER   = 1
+CHUNK_SIZE = 4
 
-class SwitchML(Packet):
-    name = "SwitchMLPacket"
-    fields_desc = [
-        # TODO: Implement me
-    ]
+SWITCHML_IP = '10.0.0.255'
+SWITCHML_PORT = 12345
 
 def AllReduce(soc, rank, data, result):
-    """
-    Perform in-network all-reduce over UDP
+    header_format = f"!BH{CHUNK_SIZE}I"
+    num_elements = len(data)
+    chunk_id_counter = 0
 
-    :param str    soc: the socket used for all-reduce
-    :param int   rank: the worker's rank
-    :param [int] data: the input vector for this worker
-    :param [int]  res: the output vector
+    for i in range(0, num_elements, CHUNK_SIZE):
+        chunk_to_send = data[i : i + CHUNK_SIZE]
+        payload = struct.pack(header_format, rank, chunk_id_counter, *chunk_to_send)
 
-    This function is blocking, i.e. only returns with a result or error
-    """
+        # ✅ Fix: change argument order to match comm.py's send(soc, data, addr)
+        send(soc, payload, (SWITCHML_IP, SWITCHML_PORT))
 
-    # TODO: Implement me
-    # NOTE: Do not send/recv directly to/from the socket.
-    #       Instead, please use the functions send() and receive() from lib/comm.py
-    #       We will use modified versions of these functions to test your program
-    pass
+        response_payload, addr = receive(soc, 4096)  # make sure to pass buffer size
+
+        if response_payload:
+            response_tuple = struct.unpack(header_format, response_payload)
+            aggregated_chunk = response_tuple[2:]
+            result[i : i + CHUNK_SIZE] = aggregated_chunk
+        else:
+            Log(f"Error: No response received for chunk {chunk_id_counter}")
+            return
+
+        chunk_id_counter += 1
 
 def main():
     rank = GetRankOrExit()
 
-    s = None # TODO: Create a UDP socket. 
-    # NOTE: This socket will be used for all AllReduce calls.
-    #       Feel free to go with a different design (e.g. multiple sockets)
-    #       if you want to, but make sure the loop below still works
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
+    s.settimeout(2)  # Optional: prevent blocking forever
+    s.bind(('0.0.0.0', SWITCHML_PORT))
 
     Log("Started...")
     for i in range(NUM_ITER):
-        num_elem = GenMultipleOfInRange(2, 2048, 2 * CHUNK_SIZE) # You may want to 'fix' num_elem for debugging
+        num_elem = GenMultipleOfInRange(CHUNK_SIZE, 2048, CHUNK_SIZE)
         data_out = GenInts(num_elem)
-        data_in = GenInts(num_elem, 0)
+        data_in = [0] * num_elem
         CreateTestData("udp-iter-%d" % i, rank, data_out)
         AllReduce(s, rank, data_out, data_in)
         RunIntTest("udp-iter-%d" % i, rank, data_in, True)
+
+    s.close()
     Log("Done")
 
 if __name__ == '__main__':

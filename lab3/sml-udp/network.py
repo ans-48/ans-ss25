@@ -1,22 +1,5 @@
 """
  Copyright (c) 2025 Computer Networks Group @ UPB
-
- Permission is hereby granted, free of charge, to any person obtaining a copy of
- this software and associated documentation files (the "Software"), to deal in
- the Software without restriction, including without limitation the rights to
- use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
- the Software, and to permit persons to whom the Software is furnished to do so,
- subject to the following conditions:
-
- The above copyright notice and this permission notice shall be included in all
- copies or substantial portions of the Software.
-
- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  """
 
 from lib import config # do not import anything before this
@@ -25,40 +8,62 @@ from mininet.topo import Topo
 from mininet.cli import CLI
 import os
 
-NUM_WORKERS = 2 # TODO: Make sure your program can handle larger values
+NUM_WORKERS = 2
+
+SWITCHML_IP = '10.0.0.255'
+SWITCHML_MAC = '00:00:00:00:AA:BB'
 
 class SMLTopo(Topo):
     def __init__(self, **opts):
+        num_workers = opts.pop('num_workers', NUM_WORKERS)
         Topo.__init__(self, **opts)
-        # TODO: Implement me. Feel free to modify the constructor signature
-        # NOTE: Make sure worker names are consistent with RunWorkers() below
+        
+        switch = self.addSwitch('s1')
+        for i in range(num_workers):
+            ip = f'10.0.0.{i+1}/24'
+            mac = f'00:00:00:00:00:{i+1:02x}'
+            host = self.addHost(f'w{i}', ip=ip, mac=mac)
+            self.addLink(host, switch, port2=i)
 
 def RunWorkers(net):
-    """
-    Starts the workers and waits for their completion.
-    Redirects output to logs/<worker_name>.log (see lib/worker.py, Log())
-    This function assumes worker i is named 'w<i>'. Feel free to modify it
-    if your naming scheme is different
-    """
     worker = lambda rank: "w%i" % rank
     log_file = lambda rank: os.path.join(os.environ['APP_LOGS'], "%s.log" % worker(rank))
     for i in range(NUM_WORKERS):
-        net.get(worker(i)).sendCmd('python worker.py %d > %s' % (i, log_file(i)))
+        net.get(worker(i)).sendCmd(f'python worker.py {i} > {log_file(i)} 2>&1')
     for i in range(NUM_WORKERS):
         net.get(worker(i)).waitOutput()
 
 def RunControlPlane(net):
-    """
-    One-time control plane configuration
-    """
-    # TODO: Implement me (if needed)
-    pass
+    sw_controller = net.get('s1')
+    worker_ports = list(range(NUM_WORKERS))
+    mc_group_id = 1
+    sw_controller.addMulticastGroup(mc_group_id, ports=worker_ports)
+    sw_controller.insertTableEntry(
+        table_name="TheIngress.arp_table",
+        match_fields={"hdr.arp.dst_proto_addr": [SWITCHML_IP]},
+        action_name="TheIngress.arp_reply",
+        action_params={"mac_addr": SWITCHML_MAC}
+    )
 
-topo = None # TODO: Create an SMLTopo instance
+topo = SMLTopo(num_workers=NUM_WORKERS)
 net = P4Mininet(program="p4/main.p4", topo=topo)
 net.run_control_plane = lambda: RunControlPlane(net)
 net.run_workers = lambda: RunWorkers(net)
 net.start()
 net.run_control_plane()
+
+# --- THIS IS THE CRITICAL FIX ---
+# Disable IPv6 on all host interfaces to prevent interference
+print("Disabling IPv6 on worker interfaces...")
+for i in range(NUM_WORKERS):
+    host = net.get(f'w{i}')
+    host.cmd(f'sysctl -w net.ipv6.conf.{host.intf().name}.disable_ipv6=1')
+
+# Statically populate host ARP caches
+print("Statically populating ARP caches on hosts...")
+for i in range(NUM_WORKERS):
+    host = net.get(f'w{i}')
+    host.cmd(f'arp -s {SWITCHML_IP} {SWITCHML_MAC}')
+
 CLI(net)
 net.stop()

@@ -1,0 +1,4 @@
+[+] Running test: udp-iter-0, rank: 1, ts: 17:43:54.560999
+[+] From data files:
+	/vagrant/lab3/sml-udp/logs/test/test-udp-iter-0/data-rank-1.csv
+[+] Result: PASS

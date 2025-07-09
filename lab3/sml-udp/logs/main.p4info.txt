@@ -1,0 +1,106 @@
+pkg_info {
+  arch: "v1model"
+}
+tables {
+  preamble {
+    id: 46739609
+    name: "TheIngress.l2_fwd_table"
+    alias: "l2_fwd_table"
+  }
+  match_fields {
+    id: 1
+    name: "hdr.eth.dst_addr"
+    bitwidth: 48
+    match_type: EXACT
+  }
+  action_refs {
+    id: 20168143
+  }
+  action_refs {
+    id: 21257015
+    annotations: "@defaultonly"
+    scope: DEFAULT_ONLY
+  }
+  size: 1
+}
+tables {
+  preamble {
+    id: 38758317
+    name: "TheIngress.arp_table"
+    alias: "arp_table"
+  }
+  match_fields {
+    id: 1
+    name: "hdr.arp.dst_proto_addr"
+    bitwidth: 32
+    match_type: EXACT
+  }
+  action_refs {
+    id: 28396257
+  }
+  action_refs {
+    id: 21257015
+    annotations: "@defaultonly"
+    scope: DEFAULT_ONLY
+  }
+  size: 1
+}
+actions {
+  preamble {
+    id: 21257015
+    name: "NoAction"
+    alias: "NoAction"
+    annotations: "@noWarn(\"unused\")"
+  }
+}
+actions {
+  preamble {
+    id: 20168143
+    name: "TheIngress.process_locally"
+    alias: "process_locally"
+  }
+}
+actions {
+  preamble {
+    id: 28396257
+    name: "TheIngress.arp_reply"
+    alias: "arp_reply"
+  }
+  params {
+    id: 1
+    name: "mac_addr"
+    bitwidth: 48
+  }
+}
+registers {
+  preamble {
+    id: 373225172
+    name: "aggregation_reg"
+    alias: "aggregation_reg"
+  }
+  type_spec {
+    bitstring {
+      bit {
+        bitwidth: 32
+      }
+    }
+  }
+  size: 4096
+}
+registers {
+  preamble {
+    id: 374996181
+    name: "counter_reg"
+    alias: "counter_reg"
+  }
+  type_spec {
+    bitstring {
+      bit {
+        bitwidth: 32
+      }
+    }
+  }
+  size: 1024
+}
+type_info {
+}
