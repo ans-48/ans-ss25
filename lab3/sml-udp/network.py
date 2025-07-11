@@ -1,17 +1,33 @@
 """
  Copyright (c) 2025 Computer Networks Group @ UPB
- """
 
-from lib import config # do not import anything before this
+ Permission is hereby granted, free of charge, to any person obtaining a copy of
+ this software and associated documentation files (the "Software"), to deal in
+ the Software without restriction, including without limitation the rights to
+ use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+ the Software, and to permit persons to whom the Software is furnished to do so,
+ subject to the following conditions:
+
+ The above copyright notice and this permission notice shall be included in all
+ copies or substantial portions of the Software.
+
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+"""
+
+from lib import config
 from p4app import P4Mininet
 from mininet.topo import Topo
 from mininet.cli import CLI
 import os
 
 NUM_WORKERS = 2
-
-SWITCHML_IP = '10.0.0.255'
-SWITCHML_MAC = '00:00:00:00:AA:BB'
+SWITCHML_IP = '10.0.0.100'  # Matches working main.p4
+SWITCHML_MAC = '00:00:00:00:01:FF'  # Matches working main.p4
 
 class SMLTopo(Topo):
     def __init__(self, **opts):
@@ -38,12 +54,17 @@ def RunControlPlane(net):
     worker_ports = list(range(NUM_WORKERS))
     mc_group_id = 1
     sw_controller.addMulticastGroup(mc_group_id, ports=worker_ports)
-    sw_controller.insertTableEntry(
-        table_name="TheIngress.arp_table",
-        match_fields={"hdr.arp.dst_proto_addr": [SWITCHML_IP]},
-        action_name="TheIngress.arp_reply",
-        action_params={"mac_addr": SWITCHML_MAC}
-    )
+    
+    # Insert IPv4 forwarding table entries for workers
+    for i in range(NUM_WORKERS):
+        worker_ip = f'10.0.0.{i+1}'
+        worker_mac = f'00:00:00:00:00:{i+1:02x}'
+        sw_controller.insertTableEntry(
+            table_name="TheIngress.ipv4_lpm",
+            match_fields={"hdr.ipv4.dstAddr": [worker_ip, 32]},  # Added prefix length for LPM
+            action_name="TheIngress.ipv4_forward",
+            action_params={"dstAddr": worker_mac, "port": i}
+        )
 
 topo = SMLTopo(num_workers=NUM_WORKERS)
 net = P4Mininet(program="p4/main.p4", topo=topo)
@@ -52,7 +73,6 @@ net.run_workers = lambda: RunWorkers(net)
 net.start()
 net.run_control_plane()
 
-# --- THIS IS THE CRITICAL FIX ---
 # Disable IPv6 on all host interfaces to prevent interference
 print("Disabling IPv6 on worker interfaces...")
 for i in range(NUM_WORKERS):
