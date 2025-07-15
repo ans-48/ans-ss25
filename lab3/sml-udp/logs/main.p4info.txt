@@ -1,0 +1,133 @@
+pkg_info {
+  arch: "v1model"
+}
+tables {
+  preamble {
+    id: 34347941
+    name: "TheIngress.ipv4_lpm"
+    alias: "ipv4_lpm"
+  }
+  match_fields {
+    id: 1
+    name: "hdr.ipv4.dstAddr"
+    bitwidth: 32
+    match_type: LPM
+  }
+  action_refs {
+    id: 22263064
+  }
+  action_refs {
+    id: 19188171
+  }
+  action_refs {
+    id: 21257015
+  }
+  size: 1024
+}
+actions {
+  preamble {
+    id: 21257015
+    name: "NoAction"
+    alias: "NoAction"
+    annotations: "@noWarn(\"unused\")"
+  }
+}
+actions {
+  preamble {
+    id: 19188171
+    name: "TheIngress.drop"
+    alias: "drop"
+  }
+}
+actions {
+  preamble {
+    id: 22263064
+    name: "TheIngress.ipv4_forward"
+    alias: "ipv4_forward"
+  }
+  params {
+    id: 1
+    name: "dstAddr"
+    bitwidth: 48
+  }
+  params {
+    id: 2
+    name: "port"
+    bitwidth: 9
+  }
+}
+actions {
+  preamble {
+    id: 24551378
+    name: "TheIngress.sml_process_new_worker"
+    alias: "sml_process_new_worker"
+  }
+}
+actions {
+  preamble {
+    id: 26371438
+    name: "TheIngress.sml_send_result"
+    alias: "sml_send_result"
+  }
+}
+actions {
+  preamble {
+    id: 16809176
+    name: "TheIngress.sml_process_duplicate"
+    alias: "sml_process_duplicate"
+  }
+}
+actions {
+  preamble {
+    id: 28396257
+    name: "TheIngress.arp_reply"
+    alias: "arp_reply"
+  }
+}
+registers {
+  preamble {
+    id: 382365890
+    name: "TheIngress.aggregation_reg"
+    alias: "aggregation_reg"
+  }
+  type_spec {
+    bitstring {
+      bit {
+        bitwidth: 32
+      }
+    }
+  }
+  size: 4
+}
+registers {
+  preamble {
+    id: 369099254
+    name: "TheIngress.counter_reg"
+    alias: "counter_reg"
+  }
+  type_spec {
+    bitstring {
+      bit {
+        bitwidth: 32
+      }
+    }
+  }
+  size: 1
+}
+registers {
+  preamble {
+    id: 369106020
+    name: "TheIngress.worker_received"
+    alias: "worker_received"
+  }
+  type_spec {
+    bitstring {
+      bit {
+        bitwidth: 32
+      }
+    }
+  }
+  size: 2
+}
+type_info {
+}

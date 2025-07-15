@@ -1,0 +1,35 @@
+pkg_info {
+  arch: "v1model"
+}
+registers {
+  preamble {
+    id: 373225172
+    name: "aggregation_reg"
+    alias: "aggregation_reg"
+  }
+  type_spec {
+    bitstring {
+      bit {
+        bitwidth: 32
+      }
+    }
+  }
+  size: 4
+}
+registers {
+  preamble {
+    id: 374996181
+    name: "counter_reg"
+    alias: "counter_reg"
+  }
+  type_spec {
+    bitstring {
+      bit {
+        bitwidth: 32
+      }
+    }
+  }
+  size: 1
+}
+type_info {
+}

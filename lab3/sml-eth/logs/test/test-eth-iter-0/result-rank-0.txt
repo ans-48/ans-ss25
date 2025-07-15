@@ -1,0 +1,5 @@
+[+] Running test: eth-iter-0, rank: 0, ts: 19:16:56.142821
+[+] From data files:
+	/vagrant/lab3/sml-eth/logs/test/test-eth-iter-0/data-rank-0.csv
+	/vagrant/lab3/sml-eth/logs/test/test-eth-iter-0/data-rank-1.csv
+[+] Result: PASS
