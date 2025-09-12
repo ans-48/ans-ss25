@@ -21,6 +21,8 @@
 
 #!/usr/bin/env python3
 
+import heapq
+
 from ryu.base import app_manager
 from ryu.controller import mac_to_port
 from ryu.controller import ofp_event
@@ -31,6 +33,8 @@ from ryu.lib.mac import haddr_to_bin
 from ryu.lib.packet import packet
 from ryu.lib.packet import ipv4
 from ryu.lib.packet import arp
+from ryu.lib.packet import ethernet
+from ryu.lib.packet import ether_types
 
 from ryu.topology import event, switches
 from ryu.topology.api import get_switch, get_link
@@ -47,6 +51,13 @@ class SPRouter(app_manager.RyuApp):
         
         # Initialize the topology with #ports=4
         self.topo_net = topo.Fattree(4)
+        # dpid -> list of (neighbor_dpid, out_port, weight)
+        self.adjacency = {}
+        # (src_dpid, dst_dpid) -> out_port
+        self.port_map = {}
+        # {IPv4: (dpid, in_port)}
+        self.host_map = {}
+        self.switch_dpids = {}
 
 
     # Topology discovery
@@ -56,6 +67,24 @@ class SPRouter(app_manager.RyuApp):
         # Switches and links in the network
         switches = get_switch(self, None)
         links = get_link(self, None)
+
+        self.switch_dpids = {sw.dp.id: sw.dp for sw in switches}
+        self.adjacency = {dpid: [] for dpid in self.switch_dpids}
+        self.port_map = {}
+
+        for link in links:
+            src = link.src; dst = link.dst
+            src_dpid = src.dpid; dst_dpid = dst.dpid
+            src_port = src.port_no; dst_port = dst.port_no
+
+            self.port_map[(src_dpid, dst_dpid)] = src_port
+            self.port_map[(dst_dpid, src_dpid)] = dst_port
+
+            self.adjacency[src_dpid].append((dst_dpid, src_port, 1))
+            self.adjacency[dst_dpid].append((src_dpid, dst_port, 1))
+
+        self.logger.info("topology discovered: %d switches, %d links",
+                         len(switches), len(links))
 
 
     @set_ev_cls(ofp_event.EventOFPSwitchFeatures, CONFIG_DISPATCHER)
@@ -92,3 +121,106 @@ class SPRouter(app_manager.RyuApp):
         parser = datapath.ofproto_parser
 
         # TODO: handle new packets at the controller
+        in_port = msg.match['in_port']
+        pkt = packet.Packet(msg.data)
+        eth = pkt.get_protocol(ethernet.ethernet)
+        if eth.ethertype == ether_types.ETH_TYPE_LLDP: return
+        ipv4_pkt = pkt.get_protocol(ipv4.ipv4)
+        arp_pkt = pkt.get_protocol(arp.arp)
+
+        src_mac = eth.src; dst_mac = eth.dst
+
+        if not (ipv4_pkt or arp_pkt): return
+
+        # learn source host's IP and location
+        if arp_pkt:
+            src_ip = arp_pkt.src_ip
+            dst_ip = arp_pkt.dst_ip
+        else:
+            src_ip = ipv4_pkt.src
+            dst_ip = ipv4_pkt.dst
+
+        self.host_map[src_ip] = (dpid, in_port)
+
+        # destination unknown
+        if dst_ip not in self.host_map:
+            # flood ARP, drop IPv4
+            if arp_pkt:
+                actions = [parser.OFPActionOutput(ofproto.OFPP_FLOOD)]
+                out = parser.OFPPacketOut(datapath=datapath, buffer_id=ofproto.OFP_NO_BUFFER,
+                                          in_port=in_port, actions=actions, data=msg.data)
+                datapath.send_msg(out)
+            return
+
+        # both source and destination hosts are known
+        dst_dpid, dst_port = self.host_map[dst_ip]
+        src_dpid, _ = self.host_map[src_ip]
+
+        # get shortest path
+        prev = self.dijkstra(src_dpid)
+        path = self.get_path(src_dpid, dst_dpid, prev)
+
+        if not path or len(path) < 2: return # no path
+
+        # install flow rules along the path
+        for i in range(len(path) - 1):
+            sw1 = path[i]; sw2 = path[i+1]
+
+            out_port = None
+            for neighbor, port, _ in self.adjacency[sw1]:
+                if neighbor == sw2:
+                    out_port = port
+                    break
+            if out_port is None: continue
+
+            dp = self.switch_dpids[sw1]
+            match = dp.ofproto_parser.OFPMatch(eth_type=ether_types.ETH_TYPE_IP, ipv4_src=src_ip, ipv4_dst=dst_ip)
+            actions = [dp.ofproto_parser.OFPActionOutput(out_port)]
+            self.add_flow(dp, 10, match, actions)
+
+        # handle last switch to host
+        last_dp = self.switch_dpids[dst_dpid]
+        match = last_dp.ofproto_parser.OFPMatch(eth_type=ether_types.ETH_TYPE_IP, ipv4_src=src_ip, ipv4_dst=dst_ip)
+        actions = [last_dp.ofproto_parser.OFPActionOutput(dst_port)]
+        self.add_flow(last_dp, 10, match, actions)
+
+        # forward this one packet along the first hop
+        first_dp = self.switch_dpids[src_dpid]
+        out_port = None
+        for neighbor, port, _ in self.adjacency[src_dpid]:
+            if neighbor == path[1]:
+                out_port = port
+                break
+
+        if out_port is not None:
+            actions = [first_dp.ofproto_parser.OFPActionOutput(out_port)]
+            out = first_dp.ofproto_parser.OFPPacketOut(datapath=first_dp, buffer_id=first_dp.ofproto.OFP_NO_BUFFER,
+                                                       in_port=in_port, actions=actions, data=msg.data)
+            first_dp.send_msg(out)
+
+    def dijkstra(self, src_dpid):
+        dist = {dpid: float('inf') for dpid in self.adjacency}
+        prev = {dpid: None for dpid in self.adjacency}
+
+        dist[src_dpid] = 0
+        heap = [(0, src_dpid)]
+
+        while heap:
+            current_dist, u = heapq.heappop(heap)
+            if current_dist > dist[u]: continue
+
+            for neighbor, _, weight in self.adjacency[u]:
+                alt = dist[u] + weight
+                if alt < dist[neighbor]:
+                    dist[neighbor] = alt
+                    prev[neighbor] = u
+                    heapq.heappush(heap, (alt, neighbor))
+
+        return prev
+
+    def get_path(self, src, dst, prev):
+        path = []
+        while dst is not None:
+            path.insert(0, dst)
+            dst = prev[dst]
+        return path if path[0] == src else []
