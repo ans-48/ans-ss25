@@ -32,6 +32,10 @@ class SMLTopo(Topo):
         Topo.__init__(self, **opts)
         # TODO: Implement me. Feel free to modify the constructor signature
         # NOTE: Make sure worker names are consistent with RunWorkers() below
+        switch = self.addSwitch("s1")
+        for i in range(NUM_WORKERS):
+            host = self.addHost(f"w{i}")
+            self.addLink(host, switch)
 
 def RunWorkers(net):
     """
@@ -54,7 +58,7 @@ def RunControlPlane(net):
     # TODO: Implement me (if needed)
     pass
 
-topo = None # TODO: Create an SMLTopo instance
+topo = SMLTopo() # TODO: Create an SMLTopo instance
 net = P4Mininet(program="p4/main.p4", topo=topo)
 net.run_control_plane = lambda: RunControlPlane(net)
 net.run_workers = lambda: RunWorkers(net)
