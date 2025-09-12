@@ -51,29 +51,37 @@ class FattreeNet(Topo):
         self.node_map = {}
 
         for node in ft_topo.servers:
-            mn_name = node.id
+            parts = node.id[1:].split('_')
+            if len(parts) != 3:
+                raise ValueError(f"invalid host ID format: {node.id}")
+
+            pod = int(parts[0]); edge = int(parts[1]); host = int(parts[2])
+            mn_name = f"h{pod}{edge}{host}"
             self.node_map[node.id] = mn_name
 
-            id_str = node.id[1:]
-            pod = int(id_str[0])
-            edge = int(id_str[1])
-            host = int(id_str[2])
-
-            ip_addr = f"10.{pod}.{edge}.{host}"
+            ip_addr = f"10.{pod}.{edge}.{host+2}"
+            print(f"{mn_name} -> {ip_addr}")
             self.addHost(mn_name, ip=ip_addr)
 
         for node in ft_topo.switches:
-            mn_name = node.id
+            parts = node.id[2:].split('_')
+            if len(parts) != 2:
+                raise ValueError(f"invalid switch ID format: {node.id}")
+            mn_name = f"{node.id[0:2]}{parts[0]}{parts[1]}"
             self.node_map[node.id] = mn_name
             self.addSwitch(mn_name)
 
-        for switch in ft_topo.switches + ft_topo.servers:
-            for edge in switch.edges:
-                if edge.lnode.id < edge.rnode.id:
-                    node1 = self.node_map[edge.lnode.id]
-                    node2 = self.node_map[edge.rnode.id]
-                    self.addLink(node1, node2, bw=15, delay='5ms')
+        processed_edges = set()
 
+        for node in ft_topo.switches + ft_topo.servers:
+            for edge in node.edges:
+                if edge in processed_edges:
+                    continue
+                processed_edges.add(edge)
+
+                node1 = self.node_map[edge.lnode.id]
+                node2 = self.node_map[edge.rnode.id]
+                self.addLink(node1, node2, bw=15, delay='5ms')
 
 def make_mininet_instance(graph_topo):
 
